@@ -1,0 +1,11 @@
+* The main difference between the two is the type of data they handle. express.json() is used for JSON data,
+while express.urlencoded({ extended: true }) is used for urlencoded data.
+
+* posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ]
+In above code ref is optional using it improves the readability and understanding of the code. Later one can easiliy
+understand that posts is an array of post refer to Post model.
