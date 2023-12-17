@@ -7,6 +7,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter a name"],
   },
+  bio: {
+    type: String,
+    required: [true, "Please enter a Bio"],
+  },
+  joinedDate: {
+    type: Date,
+    default: Date.now(),
+  },
   avatar: {
     public_id: String,
     url: String,

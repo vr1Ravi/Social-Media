@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  overflow: hidden;
+}
+#root {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+@media screen and (max-width: 750px) {
+  #root {
+    grid-template-columns: 0.2fr 1fr;
+  }
+}
+@media screen and (max-width: 500px) {
+  #root {
+    grid-template-columns: 1fr;
+  }
+}

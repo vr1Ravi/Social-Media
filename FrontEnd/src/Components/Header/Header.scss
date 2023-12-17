@@ -1,16 +1,25 @@
 .header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  background-color: black;
+  padding-top: 3vmax;
   > a {
     width: 2vmax;
     height: 2vmax;
-    margin: 1vmax 4vmax;
+    margin: 2vmax 4vmax;
+    width: 40%;
+    text-decoration: none;
+    color: #886ddd;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    font-size: 1.5rem;
     > svg {
       font-size: 2vmax;
       transition: all 0.5s;
       color: rgba(0, 0, 0, 0.445);
+      width: 1.75rem;
+      height: 1.75rem;
+
       &:hover {
         color: black;
         transform: scale(1.2);
@@ -26,5 +35,24 @@
       height: 8vw;
       margin: 2vw 8vw;
     }
+  }
+}
+@media screen and (max-width: 1000px) {
+  .header {
+    > a {
+      margin: 8vw;
+      height: 8vw;
+      margin: 2vw 8vw;
+      > span {
+        display: none;
+      }
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  .header {
+    position: absolute;
+    bottom: 0;
+    flex-direction: row;
   }
 }

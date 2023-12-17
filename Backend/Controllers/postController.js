@@ -1,14 +1,22 @@
 import { Post } from "../Models/PostModel.js";
 import { User } from "../Models/UserModel.js";
-
+import { RandomPost } from "../Models/RandomPosts.js";
+import { cloudinary } from "../app.js";
 // createPost Controller
 export const createPost = async (req, res) => {
   try {
+    const caption = req.body.caption;
+    const image = req.file.path;
+    const uploadedImage = await cloudinary.uploader.upload(image);
+
+    const imageId = uploadedImage.public_id;
+    const imageUrl = uploadedImage.url;
+
     const newPostData = {
-      caption: req.body.caption,
+      caption: caption,
       image: {
-        public_id: "this is id",
-        url: "this is url",
+        public_id: imageId,
+        url: imageUrl,
       },
       owner: req.user._id,
     };
@@ -20,7 +28,7 @@ export const createPost = async (req, res) => {
     const user = await User.findById(req.user._id);
 
     // pushing the new post into posts array of particular user
-    user.posts.push(post._id);
+    user.posts.unshift(post._id);
 
     // The below code is used to save changes made to a user document in the database.
     await user.save();
@@ -104,9 +112,7 @@ export const deletePost = async (req, res) => {
     }
     // Deleting user post
     const index = user.posts.indexOf(post._id);
-    console.log(index);
     user.posts.splice(index, 1);
-    console.log(user.posts);
 
     // saving changes
     await user.save();
@@ -137,6 +143,7 @@ export const getPostOfFollowing = async (req, res) => {
         $in: user.following,
       },
     });
+
     return res.status(200).json({
       success: true,
       posts,
@@ -294,4 +301,21 @@ export const deleteComment = async (req, res) => {
       });
     }
   } catch (error) {}
+};
+
+// Get Random Posts
+export const getRandomPost = async (req, res) => {
+  try {
+    const randomPosts = await RandomPost.find();
+
+    return res.status(200).json({
+      success: true,
+      randomPosts,
+    });
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };

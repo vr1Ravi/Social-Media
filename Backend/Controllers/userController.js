@@ -2,11 +2,13 @@ import { Post } from "../Models/PostModel.js";
 import { User } from "../Models/UserModel.js";
 import { sendEmail } from "../middlewares/sendEmail.js";
 import crypto from "crypto";
+import { cloudinary } from "../app.js";
+
 // Register Controller
 export const register = async (req, res) => {
   try {
     // Extracting user credentials from body
-    const { name, email, password } = req.body;
+    const { name, email, password, bio } = req.body;
 
     // Checking their existence in database
     let user = await User.findOne({ email });
@@ -18,10 +20,11 @@ export const register = async (req, res) => {
         .json({ success: false, message: "User already Exists" });
     }
 
-    // creating new user into database
+    // creating new user into database and storing user object in user variable
     user = await User.create({
       name,
       email,
+      bio,
       password,
       avatar: { public_id: "sample_id", url: "Sample url" },
     });
@@ -219,10 +222,23 @@ export const updatePassword = async (req, res) => {
 // updateProfile Controller
 export const updateProfile = async (req, res) => {
   try {
-    const { name, email } = req.body;
+    console.log(req.file);
+    const { userName, newEmail, newBio } = req.body;
     const user = await User.findById(req.user._id);
-    if (name) user.name = name;
-    if (email) user.email = email;
+    if (req.file) {
+      const userImg = req.file.path;
+      if (userImg) {
+        const userImgData = await cloudinary.uploader.upload(userImg);
+        const userImgUrl = userImgData.url;
+        const userImgId = userImgData.public_id;
+        user.avatar.public_id = userImgId;
+        user.avatar.url = userImgUrl;
+      }
+    }
+
+    if (userName) user.name = userName;
+    if (newEmail) user.email = newEmail;
+    if (newBio) user.bio = newBio;
     await user.save();
     return res.status(200).json({
       success: true,

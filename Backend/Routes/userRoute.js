@@ -14,13 +14,17 @@ import {
   resetPassword,
 } from "../Controllers/userController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
+import multer from "multer";
+const upload = multer({ dest: "uploads/" });
 const router = express.Router();
 
 router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/logout").get(isAuthenticated, logout);
 router.route("/update/password").put(isAuthenticated, updatePassword);
-router.route("/update/profile").put(isAuthenticated, updateProfile);
+router
+  .route("/update/profile")
+  .put(isAuthenticated, upload.single("profileImg"), updateProfile);
 router.route("/delete/me").delete(isAuthenticated, deleteProfile);
 router.route("/follow/:id").get(isAuthenticated, followOrUnfollowUser);
 router.route("/me").get(isAuthenticated, getProfile);
