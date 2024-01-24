@@ -52,7 +52,6 @@ const UserProfile = ({
     setNewEmail(userEmail);
     setNewBio(userBio);
   };
-  console.log();
   // Handle image change for profile picture
   const handleImageChange = (event) => {
     const file = event.target.files[0];

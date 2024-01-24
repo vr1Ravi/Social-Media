@@ -1,22 +1,76 @@
 import { useState } from "react";
+import { registerUser } from "../../Actions/userAction";
+import "./Register.scss";
+import { useDispatch } from "react-redux";
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [profileImg, setProfileImg] = useState(null);
+  const [profileImgPreview, setProfileImgPreview] = useState(null);
+  const [name, setName] = useState("");
+  const dispatch = useDispatch();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("profileImg", profileImg);
+    await registerUser(dispatch, formData);
+  };
+  const handleUserProfile = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImg(file);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setProfileImgPreview(reader.result);
+      };
+    }
+  };
   return (
     <div className="loginContainer">
-      <form className="loginForm">
+      <form className="loginForm" onSubmit={(e) => handleSubmit(e)}>
         <h3>Social App</h3>
         <div className="inputImageBox">
           {" "}
           <input
             type="file"
             accept="image/*"
-            onChange={() => {}}
+            onChange={(e) => handleUserProfile(e)}
             placeholder="Choose a Profile Pic"
-            // style={{ opacity: "0" }}
+            style={{
+              width: "100px",
+              height: "100px",
+              opacity: 0,
+              zIndex: 1,
+              position: "relative",
+            }}
+          />
+          <img
+            style={{
+              position: "absolute",
+              top: "1rem",
+              left: "1rem",
+              width: "100px",
+              cursor: "pointer",
+              borderRadius: "50%",
+            }}
+            src={
+              profileImgPreview
+                ? profileImgPreview
+                : "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"
+            }
+            alt="profile"
           />
         </div>
-
+        <input
+          type="text"
+          placeholder="Name"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <input
           type="email"
           placeholder="Email"

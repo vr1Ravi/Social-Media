@@ -18,7 +18,7 @@ import multer from "multer";
 const upload = multer({ dest: "uploads/" });
 const router = express.Router();
 
-router.route("/register").post(register);
+router.route("/register").post(upload.single("profileImg"), register);
 router.route("/login").post(login);
 router.route("/logout").get(isAuthenticated, logout);
 router.route("/update/password").put(isAuthenticated, updatePassword);

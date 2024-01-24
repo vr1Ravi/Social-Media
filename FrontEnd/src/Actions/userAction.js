@@ -6,6 +6,9 @@ import {
   loadUserRequest,
   loadUserSuccess,
   loadUserFaliure,
+  registerRequest,
+  registerSuccess,
+  registerFaliure,
 } from "../Slices/userSlice";
 
 export const loginUser = async (email, password, dispatch) => {
@@ -45,7 +48,7 @@ export const updateProfile = async (dispatch, formData) => {
         "content-type": "multipart/form-data",
       },
     });
-    console.log(data);
+
     if (data) {
       await loadUser(dispatch);
     }
@@ -60,5 +63,21 @@ export const logOutUser = async () => {
     return data.message;
   } catch (error) {
     return null;
+  }
+};
+
+export const registerUser = async (dispatch, formData) => {
+  try {
+    dispatch(registerRequest());
+    const { data } = await axios.post("/api/v1/register", formData, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    if (data) {
+      dispatch(registerSuccess(data.user));
+    }
+  } catch (error) {
+    dispatch(registerFaliure(error.response.data.message));
   }
 };
