@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import {
   Home,
   HomeOutlined,
-  Add,
   Search,
-  AddOutlined,
   SearchOutlined,
   AccountCircle,
   AccountCircleOutlined,
@@ -22,27 +20,19 @@ const Header = () => {
   return (
     <div className="header">
       <Link to="/" onClick={() => setCurrentTab("/")}>
-        {currentTab === "/" ? (
-          <Home style={{ color: "#ee1396" }} />
-        ) : (
-          <HomeOutlined />
-        )}
+        {currentTab === "/" ? <Home /> : <HomeOutlined />}
         <span>Home</span>
       </Link>
       <Link to="/search" onClick={() => setCurrentTab("/search")}>
         {currentTab === "/search" ? (
-          <Search style={{ color: "#ee1396" }} />
+          <Search style={{ fontWeight: "bold" }} />
         ) : (
           <SearchOutlined />
         )}
         <span>Search</span>
       </Link>
       <Link to="/newpost" onClick={() => setCurrentTab("/newpost")}>
-        {currentTab === "/newpost" ? (
-          <GroupIcon style={{ color: "#ee1396" }} />
-        ) : (
-          <PeopleOutlineIcon />
-        )}
+        {currentTab === "/newpost" ? <GroupIcon /> : <PeopleOutlineIcon />}
         <span>Friends</span>
       </Link>
 
@@ -51,7 +41,7 @@ const Header = () => {
         onClick={() => setCurrentTab("/profile")}
       >
         {currentTab === "/profile" ? (
-          <AccountCircle style={{ color: "#ee1396" }} />
+          <AccountCircle />
         ) : (
           <AccountCircleOutlined />
         )}

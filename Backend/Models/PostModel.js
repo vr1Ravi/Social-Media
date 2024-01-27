@@ -10,8 +10,14 @@ const postSchema = new mongoose.Schema({
   },
 
   owner: {
-    type: mongoose.Schema.Types.ObjectId, // Data type of each owner will be generated automatically
-    ref: "User",
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
+    image: {
+      public_id: String,
+      url: String,
+    },
+    name: String,
   },
   createdAt: {
     type: Date,

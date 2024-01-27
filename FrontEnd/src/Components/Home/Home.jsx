@@ -76,7 +76,6 @@ const Home = () => {
             <div className="actionToPost">
               {" "}
               <PhotoIcon />
-              <span>Photos</span>
               <input
                 type="file"
                 accept="image/*"
@@ -121,6 +120,9 @@ const Home = () => {
                 postImage={post.image.url}
                 likes={post.likes}
                 comments={post.comments}
+                ownerImage={post.owner.image.url}
+                ownerName={post.owner.name}
+                ownerId={post.owner._id}
               />
             );
           })}
@@ -141,58 +143,6 @@ const Home = () => {
             );
           })}
       </div>
-      {/* <div className="homeRight">
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-        <User
-          userId={user._id}
-          userName={user.name}
-          userAvatar={user.avatar.url}
-        />
-      </div> */}
     </div>
   );
 };

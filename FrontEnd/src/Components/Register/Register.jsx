@@ -8,14 +8,18 @@ const Register = () => {
   const [profileImg, setProfileImg] = useState(null);
   const [profileImgPreview, setProfileImgPreview] = useState(null);
   const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
   const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append("name", name);
     formData.append("email", email);
     formData.append("password", password);
+    formData.append("bio", bio);
     formData.append("profileImg", profileImg);
     await registerUser(dispatch, formData);
+    window.location.href = '/';
   };
   const handleUserProfile = (e) => {
     const file = e.target.files[0];
@@ -85,6 +89,15 @@ const Register = () => {
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Bio"
+          required
+          value={bio}
+          onChange={(e) => {
+            setBio(e.target.value);
           }}
         />
 

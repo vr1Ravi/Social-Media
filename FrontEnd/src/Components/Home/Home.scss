@@ -3,7 +3,9 @@
   display: grid;
   grid-template-columns: 1fr;
   box-sizing: border-box;
-  background-color: #f0f2f5;
+  background-color: #000000;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
   .homeLeft {
     display: flex;
     flex-direction: column;
@@ -66,42 +68,21 @@
           }
           > svg {
             position: absolute;
-            color: #886ddd;
+            color: rgb(29 155 240);
           }
           > input {
             flex: 0.2;
             opacity: 0;
           }
           > button {
-            font-family: fantasy;
-            color: #ed1496;
-            font-size: 1rem;
             width: 6vmax;
             cursor: pointer;
+            background-color: rgb(29, 155, 240);
+            color: white;
+            padding: 0.5vmax;
+            border-radius: 1.5vmax;
           }
         }
-      }
-    }
-  }
-  .homeRight {
-    padding: 2vmax;
-    overflow-y: auto;
-    box-sizing: border-box;
-    .homeUser {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      color: rgba(0, 0, 0, 0.5);
-      transition: all 0.5s;
-      > img {
-        height: 3vmax;
-        width: 3vmax;
-        margin: 1vmax;
-        border-radius: 100%;
-        border: 3px solid rgb(255, 201, 201);
-      }
-      &:hover {
-        transform: translateY(-10px);
       }
     }
   }

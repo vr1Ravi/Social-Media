@@ -13,6 +13,7 @@ import Home from "./Components/Home/Home";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { Oval } from "react-loader-spinner";
 import Register from "./Components/Register/Register";
+import RightBar from "./Components/RightBar/RightBar";
 // import User from "./Components/User/User";
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +23,6 @@ function App() {
 
   useEffect(() => {
     loadUser(dispatch);
-    console.log("App");
   }, []);
   if (isLoading) {
     return (
@@ -52,7 +52,6 @@ function App() {
   return (
     <BrowserRouter>
       {isAuthenticated && <Header />}
-
       <Routes>
         <Route path="/" element={isAuthenticated ? <Home /> : <Login />} />
         <Route
@@ -73,6 +72,7 @@ function App() {
         />
         <Route path="/register" element={<Register />} />
       </Routes>
+      {isAuthenticated && <RightBar />}
     </BrowserRouter>
   );
 }

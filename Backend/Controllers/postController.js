@@ -7,6 +7,8 @@ export const createPost = async (req, res) => {
   try {
     const caption = req.body.caption;
     const image = req.file.path;
+
+    const user = await User.findById(req.user._id);
     const uploadedImage = await cloudinary.uploader.upload(image);
 
     const imageId = uploadedImage.public_id;
@@ -18,14 +20,22 @@ export const createPost = async (req, res) => {
         public_id: imageId,
         url: imageUrl,
       },
-      owner: req.user._id,
+      owner: {
+        _id: user._id,
+        image: {
+          public_id: user.avatar.public_id,
+          url: user.avatar.url,
+        },
+        name: user.name,
+      },
     };
 
     // creating new Post
     const post = await Post.create(newPostData);
 
     // finding user by req.user._id
-    const user = await User.findById(req.user._id);
+
+    if (user.isBot) await RandomPost.create(newPostData);
 
     // pushing the new post into posts array of particular user
     user.posts.unshift(post._id);

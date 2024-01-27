@@ -9,19 +9,18 @@
     margin: 2vmax 4vmax;
     width: 40%;
     text-decoration: none;
-    color: #886ddd;
+    color: white;
     display: grid;
     grid-template-columns: 1fr 2fr;
     font-size: 1.5rem;
     > svg {
       font-size: 2vmax;
       transition: all 0.5s;
-      color: rgba(0, 0, 0, 0.445);
+      color: white;
       width: 1.75rem;
       height: 1.75rem;
 
       &:hover {
-        color: black;
         transform: scale(1.2);
       }
     }
