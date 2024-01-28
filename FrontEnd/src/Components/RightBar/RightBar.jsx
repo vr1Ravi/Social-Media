@@ -1,49 +1,42 @@
+import { useEffect, useState } from "react";
 import "./RightBar.scss";
+import axios from "axios";
 const RightBar = () => {
+  const [bots, setBot] = useState([]);
+  const [callOnce, setCallOnce] = useState(true);
+
+  useEffect(() => {
+    async function getBots() {
+      const res = await axios.get("/api/v1/users/bots");
+      setBot(res.data.bots);
+      setCallOnce(false);
+    }
+
+    if (callOnce) getBots();
+  }, [callOnce]);
+
   return (
     <>
       <div className="homeRight">
-        <h1>Whom to Follow</h1>
         <div className="randomUsers">
-          <div>
-            <div>
-              <img
-                className="userImage"
-                src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"
-                alt="user"
-              />
-              <h3>John Doe</h3>
-            </div>
-            <button>Follow</button>
-          </div>
-
-          <div>
-            <div>
-              <img
-                className="userImage"
-                src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"
-                alt="user"
-              />
-              <h3>John Doe</h3>
-            </div>
-            <button>Follow</button>
-          </div>
-
-          <div>
-            <div>
-              <img
-                className="userImage"
-                src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"
-                alt="user"
-              />
-              <h3>John Doe</h3>
-            </div>
-            <button>Follow</button>
-          </div>
+          <h1 style={{ color: "white" }}>Whom to Follow</h1>
+          {bots.map((bot) => (
+            <Bot key={bot._id} bot={bot} />
+          ))}
         </div>
       </div>
     </>
   );
 };
-
+const Bot = ({ bot }) => {
+  return (
+    <div>
+      <div>
+        <img className="userImage" src={bot.avatar.url} alt="user" />
+        <h3>{bot.name}</h3>
+      </div>
+      <button>Follow</button>
+    </div>
+  );
+};
 export default RightBar;

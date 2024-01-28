@@ -34,6 +34,7 @@ export const loadUser = async (dispatch) => {
   try {
     dispatch(loadUserRequest());
     const { data } = await axios.get("/api/v1/me");
+
     dispatch(loadUserSuccess(data.user));
   } catch (error) {
     dispatch(loadUserFaliure(error.response.data.message));

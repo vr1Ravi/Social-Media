@@ -31,13 +31,13 @@ const Header = () => {
         )}
         <span>Search</span>
       </Link>
-      <Link to="/newpost" onClick={() => setCurrentTab("/newpost")}>
-        {currentTab === "/newpost" ? <GroupIcon /> : <PeopleOutlineIcon />}
+      <Link to="/friends" onClick={() => setCurrentTab("/friends")}>
+        {currentTab === "/friends" ? <GroupIcon /> : <PeopleOutlineIcon />}
         <span>Friends</span>
       </Link>
 
-      <a
-        href={`/profile/${user._id}`}
+      <Link
+        to={`/profile/${user._id}`}
         onClick={() => setCurrentTab("/profile")}
       >
         {currentTab === "/profile" ? (
@@ -46,7 +46,7 @@ const Header = () => {
           <AccountCircleOutlined />
         )}
         <span>Profile</span>
-      </a>
+      </Link>
     </div>
   );
 };

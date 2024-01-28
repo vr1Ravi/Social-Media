@@ -7,14 +7,15 @@ import Login from "./Components/Login/Login";
 import { useDispatch } from "react-redux";
 import { loadUser } from "./Actions/userAction";
 import { getPostsOfFollwingUsers } from "./Actions/postsAction";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Home from "./Components/Home/Home";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { Oval } from "react-loader-spinner";
 import Register from "./Components/Register/Register";
 import RightBar from "./Components/RightBar/RightBar";
-// import User from "./Components/User/User";
+import SearchUser from "./Components/SearchUser/SearchUser";
+
 function App() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -70,6 +71,7 @@ function App() {
             />
           }
         />
+        <Route path="/search" element={<SearchUser />} />
         <Route path="/register" element={<Register />} />
       </Routes>
       {isAuthenticated && <RightBar />}

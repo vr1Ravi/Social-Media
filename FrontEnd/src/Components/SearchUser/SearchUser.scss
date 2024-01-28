@@ -1,0 +1,46 @@
+.searchUserBox {
+  height: 100vh;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+
+  .searchUser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    border-bottom: 1px solid #2f3336;
+    .searchBox {
+      position: absolute;
+      top: 64px;
+      width: 47%;
+      height: 50%;
+      border-radius: 20px;
+      border: 1px solid #2f3336;
+      background-color: rgb(32 35 39);
+      padding: 0 1vmax;
+      box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 15px,
+        rgba(255, 255, 255, 0.15) 0px 0px 3px 1px;
+      color: #fff;
+      &:focus {
+        outline: none;
+      }
+    }
+    input {
+      width: 80%;
+      height: 50%;
+      border-radius: 20px;
+      border: 1px solid #2f3336;
+      background-color: rgb(32 35 39);
+      padding: 0 1vmax;
+      // font-size: 1.5vmax;
+      color: #fff;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  .displayUsers {
+    height: 100%;
+    overflow-y: auto;
+  }
+}

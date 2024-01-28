@@ -338,6 +338,7 @@ export const getUserProfile = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().populate("posts");
+    users.reverse();
     return res.status(200).json({
       success: true,
       users,
@@ -430,6 +431,24 @@ export const resetPassword = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Password restored successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Get Bots
+
+export const getBots = async (req, res) => {
+  try {
+    const bots = await User.find({ isBot: true });
+
+    return res.status(200).json({
+      success: true,
+      bots,
     });
   } catch (error) {
     return res.status(500).json({

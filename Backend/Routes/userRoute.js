@@ -12,6 +12,7 @@ import {
   getAllUsers,
   forgotPassword,
   resetPassword,
+  getBots,
 } from "../Controllers/userController.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 import multer from "multer";
@@ -30,6 +31,7 @@ router.route("/follow/:id").get(isAuthenticated, followOrUnfollowUser);
 router.route("/me").get(isAuthenticated, getProfile);
 router.route("/user/:id").get(isAuthenticated, getUserProfile);
 router.route("/users").get(isAuthenticated, getAllUsers);
+router.route("/users/bots").get(isAuthenticated, getBots);
 router.route("/forgot/password").post(forgotPassword);
 router.route("/password/reset/:token").put(resetPassword);
 export { router };

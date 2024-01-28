@@ -30,10 +30,7 @@ const userSchema = new mongoose.Schema({
     minLength: [8, "Password must be at least 8 characters"],
     select: false,
   },
-  isBot: {
-    type: Boolean,
-    default: false,
-  },
+
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -52,6 +49,10 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  isBot: {
+    type: Boolean,
+    default: false,
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
 });

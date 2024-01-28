@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Post from "../Post/Post";
 import Modal from "../Modals/EditModal/EditModal";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import CloseIcon from "@mui/icons-material/Close";
-import { loadUser, updateProfile } from "../../Actions/userAction";
+import { updateProfile } from "../../Actions/userAction";
 import {
   logoutRequest,
   logoutSuccess,
