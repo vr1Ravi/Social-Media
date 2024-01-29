@@ -6,8 +6,7 @@ import Header from "./Components/Header/Header";
 import Login from "./Components/Login/Login";
 import { useDispatch } from "react-redux";
 import { loadUser } from "./Actions/userAction";
-import { getPostsOfFollwingUsers } from "./Actions/postsAction";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Home from "./Components/Home/Home";
 import UserProfile from "./Components/UserProfile/UserProfile";
@@ -21,6 +20,7 @@ function App() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const isLoading = useSelector((state) => state.user.loading);
   const loggedInUser = useSelector((state) => state.user.user);
+  const curSearchUser = useSelector((state) => state.user.curSearchUser);
 
   useEffect(() => {
     loadUser(dispatch);
@@ -56,7 +56,7 @@ function App() {
       <Routes>
         <Route path="/" element={isAuthenticated ? <Home /> : <Login />} />
         <Route
-          path={`/profile/${loggedInUser && loggedInUser._id}`}
+          path={`/${loggedInUser && loggedInUser.name}`}
           element={
             <UserProfile
               userName={loggedInUser?.name}
@@ -68,6 +68,23 @@ function App() {
               userFollowing={loggedInUser?.following}
               userPosts={loggedInUser?.posts}
               userId={loggedInUser?._id}
+            />
+          }
+        />
+        <Route
+          path={`/profile/${curSearchUser?.name}`}
+          element={
+            <UserProfile
+              userName={curSearchUser?.name}
+              userAvatar={curSearchUser?.avatar.url}
+              userEmail={curSearchUser?.email}
+              userBio={curSearchUser?.bio}
+              userJoinedDate={curSearchUser?.joinedDate}
+              userFollowers={curSearchUser?.followers}
+              userFollowing={curSearchUser?.following}
+              userPosts={curSearchUser?.posts}
+              userId={curSearchUser?._id}
+              isAuthenticatedUser={false}
             />
           }
         />

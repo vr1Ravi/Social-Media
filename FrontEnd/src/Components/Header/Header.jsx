@@ -36,15 +36,8 @@ const Header = () => {
         <span>Friends</span>
       </Link>
 
-      <Link
-        to={`/profile/${user._id}`}
-        onClick={() => setCurrentTab("/profile")}
-      >
-        {currentTab === "/profile" ? (
-          <AccountCircle />
-        ) : (
-          <AccountCircleOutlined />
-        )}
+      <Link to={`/${user.name}`} onClick={() => setCurrentTab("/me")}>
+        {currentTab === "/me" ? <AccountCircle /> : <AccountCircleOutlined />}
         <span>Profile</span>
       </Link>
     </div>

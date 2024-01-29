@@ -23,6 +23,7 @@ const UserProfile = ({
   userFollowing,
   userPosts,
   userId,
+  isAuthenticatedUser = true,
 }) => {
   // State for profile editing
   const [newName, setNewName] = useState(userName);
@@ -95,13 +96,15 @@ const UserProfile = ({
       <div className="userInfo">
         <div className="userUpperPart">
           <img src={userAvatar} alt="userProfilePic" />
-          <div className="profileUppeButtons">
-            <button onClick={handleEditProfileClick}>Edit profile</button>
+          {isAuthenticatedUser && (
+            <div className="profileUppeButtons">
+              <button onClick={handleEditProfileClick}>Edit profile</button>
 
-            <button onClick={handleUserLogout}>
-              <Link to={"/"}>LogOut</Link>
-            </button>
-          </div>
+              <button onClick={handleUserLogout}>
+                <Link to={"/"}>LogOut</Link>
+              </button>
+            </div>
+          )}
         </div>
         <div className="userLowerPart">
           <p>{userName}</p>

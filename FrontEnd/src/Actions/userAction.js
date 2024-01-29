@@ -82,3 +82,14 @@ export const registerUser = async (dispatch, formData) => {
     dispatch(registerFaliure(error.response.data.message));
   }
 };
+
+export const followUnfollowUser = async (userId) => {
+  try {
+    const { data } = axios.get(`/api/v1/follow/${userId}`);
+    if (data) {
+      console.log(data);
+    }
+  } catch (error) {
+    console.log(error.response.data.message);
+  }
+};

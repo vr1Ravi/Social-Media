@@ -5,9 +5,13 @@ const userSlice = createSlice({
   initialState: {
     isAuthenticated: false,
     loading: false,
+    curSearchUser: null,
   },
 
   reducers: {
+    setCurSearchUser: (state, action) => {
+      state.curSearchUser = action.payload;
+    },
     loginRequest: (state) => {
       state.loading = true;
     },
@@ -67,6 +71,7 @@ const userSlice = createSlice({
 });
 
 export const {
+  setCurSearchUser,
   loginRequest,
   loginSuccess,
   loginFaliure,

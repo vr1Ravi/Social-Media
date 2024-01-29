@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./RightBar.scss";
 import axios from "axios";
+import { followUnfollowUser } from "../../Actions/userAction";
 const RightBar = () => {
   const [bots, setBot] = useState([]);
   const [callOnce, setCallOnce] = useState(true);
@@ -29,13 +30,20 @@ const RightBar = () => {
   );
 };
 const Bot = ({ bot }) => {
+  const [followed, setFollowed] = useState(false);
+  const handleFollow = () => {
+    setFollowed(!followed);
+    followUnfollowUser(bot._id);
+  };
   return (
     <div>
       <div>
         <img className="userImage" src={bot.avatar.url} alt="user" />
         <h3>{bot.name}</h3>
       </div>
-      <button>Follow</button>
+      <button onClick={() => handleFollow()}>
+        {followed ? "Following" : "Follow"}
+      </button>
     </div>
   );
 };

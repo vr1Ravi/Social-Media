@@ -1,19 +1,29 @@
 import "./User.scss";
+import { useDispatch } from "react-redux";
 
-const User = ({ name, image, bio }) => {
+import { setCurSearchUser } from "../../Slices/userSlice";
+import { Link } from "react-router-dom";
+const User = ({ user }) => {
+  const dispatch = useDispatch();
   return (
-    <div className="userBox">
-      <div className="leftSide">
-        <div className="userImage">
-          <img src={image} alt="userImage" />
-        </div>
+    <Link
+      to={`/profile/${user.name}`}
+      onClick={() => dispatch(setCurSearchUser(user))}
+      style={{ textDecoration: "none", color: "black", fontFamily: "math" }}
+    >
+      <div className="userBox">
+        <div className="leftSide">
+          <div className="userImage">
+            <img src={user.avatar.url} alt="userImage" />
+          </div>
 
-        <p>{bio}</p>
+          <p>{user.bio}</p>
+        </div>
+        <div className="rightSide">
+          <p>{user.name}</p>
+        </div>
       </div>
-      <div className="rightSide">
-        <p>{name}</p>
-      </div>
-    </div>
+    </Link>
   );
 };
 
