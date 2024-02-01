@@ -91,11 +91,31 @@
       color: black;
     }
   }
+  .postComment {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    input {
+      width: 80%;
+      outline: none;
+      font-family: math;
+      padding: 1vmax;
+      border-radius: 10px;
+      border: 1px solid grey;
+    }
+    button {
+      position: absolute;
+      right: 3vmax;
+      top: 0.7vmax;
+      color: #18669b;
+      cursor: pointer;
+    }
+  }
 }
 
 .postFooter {
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   > button {
     margin: 1vmax 1vmax;
@@ -129,4 +149,15 @@ button {
   > svg {
     margin-right: 5px;
   }
+}
+#commentBoxClose {
+  width: 6vmax;
+  cursor: pointer;
+  background-color: rgb(29, 155, 240);
+  color: white;
+  padding: 0.5vmax;
+  border-radius: 1.5vmax;
+  position: absolute;
+  top: 9px;
+  right: 8px;
 }

@@ -31,6 +31,7 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    postCommentRequest: () => {},
   },
 });
 export const {

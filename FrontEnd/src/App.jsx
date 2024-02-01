@@ -18,10 +18,10 @@ import SearchUser from "./Components/SearchUser/SearchUser";
 function App() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const isLoading = useSelector((state) => state.user.loading);
   const loggedInUser = useSelector((state) => state.user.user);
   const curSearchUser = useSelector((state) => state.user.curSearchUser);
-
+  const isLoading = useSelector((state) => state.user.loading);
+  console.log("reloaded");
   useEffect(() => {
     loadUser(dispatch);
   }, []);
@@ -56,20 +56,8 @@ function App() {
       <Routes>
         <Route path="/" element={isAuthenticated ? <Home /> : <Login />} />
         <Route
-          path={`/${loggedInUser && loggedInUser.name}`}
-          element={
-            <UserProfile
-              userName={loggedInUser?.name}
-              userAvatar={loggedInUser?.avatar.url}
-              userEmail={loggedInUser?.email}
-              userBio={loggedInUser?.bio}
-              userJoinedDate={loggedInUser?.joinedDate}
-              userFollowers={loggedInUser?.followers}
-              userFollowing={loggedInUser?.following}
-              userPosts={loggedInUser?.posts}
-              userId={loggedInUser?._id}
-            />
-          }
+          path={`/${loggedInUser?.name}`}
+          element={<UserProfile isAuthenticated={isAuthenticated} />}
         />
         <Route
           path={`/profile/${curSearchUser?.name}`}

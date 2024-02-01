@@ -81,3 +81,18 @@ export const geRandomPosts = async () => {
     return null;
   }
 };
+
+// postComment
+export const postComment = async (dispatch, id, comment) => {
+  try {
+    const { data } = axios.put(
+      `/api/v1/post/comment/:${id}`,
+      { comment },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (error) {}
+};

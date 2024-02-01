@@ -214,8 +214,8 @@ export const updateCaption = async (req, res) => {
 // Add Comment Controller
 export const commentOnPost = async (req, res) => {
   try {
-    const { comment } = await req.body;
-
+    const { comment } = req.body;
+    const user = req.user;
     const post = await Post.findById(req.params.id);
     if (!post) {
       return res.status(404).json({
@@ -246,6 +246,8 @@ export const commentOnPost = async (req, res) => {
       post.comments.push({
         user: req.user._id,
         comment: comment,
+        userName: user.name,
+        userAvatar: user.avatar,
       });
       await post.save();
       return res.status(200).json({

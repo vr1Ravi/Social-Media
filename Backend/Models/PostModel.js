@@ -31,6 +31,7 @@ const postSchema = new mongoose.Schema({
   ],
   comments: [
     {
+      id: String,
       user: {
         type: mongoose.Schema.Types.ObjectId, // Data type of each owner will be generated automatically
         ref: "User",
@@ -38,6 +39,11 @@ const postSchema = new mongoose.Schema({
       comment: {
         type: String,
         required: true,
+      },
+      userName: String,
+      userAvatar: {
+        public_id: String,
+        url: String,
       },
     },
   ],

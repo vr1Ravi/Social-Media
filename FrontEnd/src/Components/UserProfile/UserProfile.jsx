@@ -12,29 +12,34 @@ import {
 } from "../../Slices/userSlice";
 import "./UserProfile.scss";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-const UserProfile = ({
-  userName,
-  userAvatar,
-  userEmail,
-  userBio,
-  userJoinedDate,
-  userFollowers,
-  userFollowing,
-  userPosts,
-  userId,
-  isAuthenticatedUser = true,
-}) => {
+import { useDispatch, useSelector } from "react-redux";
+
+// userName={loggedInUser?.name}
+//               userAvatar={loggedInUser?.avatar.url}
+//               userEmail={loggedInUser?.email}
+//               userBio={loggedInUser?.bio}
+//               userJoinedDate={loggedInUser?.joinedDate}
+//               userFollowers={loggedInUser?.followers}
+//               userFollowing={loggedInUser?.following}
+//               userPosts={loggedInUser?.posts}
+//               userId={loggedInUser?._id}
+const UserProfile = ({ isAuthenticatedUser }) => {
   // State for profile editing
-  const [newName, setNewName] = useState(userName);
-  const [newEmail, setNewEmail] = useState(userEmail);
-  const [newBio, setNewBio] = useState(userBio);
-  const [profilePicPreview, setProfilePicPreview] = useState(userAvatar);
-  const [profileImg, setProfileImg] = useState(userAvatar);
+  const loggedInUser = useSelector((state) => state.user.user);
+  const followers = useSelector((state) => state.user.followers);
+  const followings = useSelector((state) => state.user.followings);
+
+  const [newName, setNewName] = useState(loggedInUser.name);
+  const [newEmail, setNewEmail] = useState(loggedInUser.email);
+  const [newBio, setNewBio] = useState(loggedInUser.bio);
+  const [profilePicPreview, setProfilePicPreview] = useState(
+    loggedInUser.avatar.url
+  );
+  const [profileImg, setProfileImg] = useState(loggedInUser.avatar.url);
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const dispatch = useDispatch();
 
-  const date = new Date(userJoinedDate);
+  const date = new Date(loggedInUser.joinedDate);
   const options = {
     year: "numeric",
     month: "long",
@@ -83,11 +88,8 @@ const UserProfile = ({
       dispatch(logoutRequest());
       const { data } = await axios.get("/api/v1/logout");
       dispatch(logoutSuccess());
-
-      console.log(data);
     } catch (error) {
       dispatch(logoutFaliure);
-      console.log(error.response.data.message);
     }
   };
   return (
@@ -95,7 +97,7 @@ const UserProfile = ({
       {/* User Information */}
       <div className="userInfo">
         <div className="userUpperPart">
-          <img src={userAvatar} alt="userProfilePic" />
+          <img src={loggedInUser.avatar.url} alt="userProfilePic" />
           {isAuthenticatedUser && (
             <div className="profileUppeButtons">
               <button onClick={handleEditProfileClick}>Edit profile</button>
@@ -107,8 +109,8 @@ const UserProfile = ({
           )}
         </div>
         <div className="userLowerPart">
-          <p>{userName}</p>
-          <p>{userBio}</p>
+          <p>{loggedInUser.name}</p>
+          <p>{loggedInUser.bio}</p>
           <p>Joined {formattedDate}</p>
         </div>
         <div className="userFooter">
@@ -117,7 +119,7 @@ const UserProfile = ({
               to="/profile/following"
               style={{ textDecoration: "none", color: "black" }}
             >
-              {userFollowers.length}{" "}
+              {followers.length}{" "}
               <span style={{ color: "rgb(138 152 165)" }}> Followers</span>
             </Link>
           </div>
@@ -126,7 +128,7 @@ const UserProfile = ({
               to="/profile/following"
               style={{ textDecoration: "none", color: "black" }}
             >
-              {userFollowing.length}{" "}
+              {followings.length}{" "}
               <span style={{ color: "rgb(138 152 165)" }}>Following</span>
             </Link>
           </div>
@@ -187,17 +189,17 @@ const UserProfile = ({
 
       {/* User Posts */}
       <div className="userPosts">
-        {userPosts?.map((post) => (
+        {loggedInUser.posts.map((post) => (
           <Post
             postId={post?._id}
             caption={post?.caption}
             postImage={post?.image?.url}
             likes={post?.likes}
             comments={post?.comments}
-            ownerImage={userAvatar}
-            ownerName={userName}
+            ownerImage={loggedInUser.avatar.url}
+            ownerName={loggedInUser.name}
             key={post?._id}
-            ownerId={userId}
+            ownerId={loggedInUser._id}
             isProfile={true}
           />
         ))}

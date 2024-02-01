@@ -22,7 +22,7 @@ const SearchUser = () => {
       }
     };
     getAllUsers();
-  });
+  }, []);
   useEffect(() => {
     const filterUsers = () => {
       const userArr = users.filter((user) =>

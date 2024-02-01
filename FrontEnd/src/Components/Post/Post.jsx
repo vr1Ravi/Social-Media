@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Post.scss";
-import RecommendIcon from "@mui/icons-material/Recommend";
+import SendIcon from "@mui/icons-material/Send";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deletePost, updatePostCaption } from "../../Actions/postsAction";
 import { useRef } from "react";
+import CommentsModal from "../Modals/CommentsModal/CommentsModal";
 const Post = ({
   postId,
   caption,
@@ -24,10 +25,13 @@ const Post = ({
   const [liked, setLiked] = useState(false);
   const [editDisplay, setEditDisplay] = useState(false);
   const [editCaption, displayEditCaption] = useState(false);
+  const [postComments, showPostComments] = useState(false);
   const [postCaption, setPostCaption] = useState(caption);
+  const [comment, setComment] = useState("");
   const moreHorizIconRef = useRef(null);
   const dispatch = useDispatch();
-  const handleLike = () => {
+
+  const handleLikeUnlike = () => {
     setLiked(!liked);
   };
   document.addEventListener("click", (e) => {
@@ -51,6 +55,9 @@ const Post = ({
   const handleDeleteClick = async () => {
     await deletePost(postId, dispatch);
     setEditDisplay(!editDisplay);
+  };
+  const handleCommentClick = () => {
+    showPostComments(!postComments);
   };
 
   return (
@@ -107,7 +114,7 @@ const Post = ({
 
       <button>{likes.length} likes</button>
       <div className="postFooter">
-        <button onClick={handleLike}>
+        <button onClick={handleLikeUnlike}>
           {liked ? (
             <FavoriteIcon style={{ color: "crimson" }} />
           ) : (
@@ -115,10 +122,57 @@ const Post = ({
           )}
           Like
         </button>
-        <button>
-          <ChatBubbleOutlineIcon /> Comment
+        <button onClick={() => handleCommentClick()}>
+          <ChatBubbleOutlineIcon />
         </button>
       </div>
+      {!isProfile && (
+        <div className="postComment">
+          <div className="recentComment">
+            {comments ? (
+              <p>
+                <img
+                  src={comments[comments.length - 1]?.userAvatar.url}
+                  alt=""
+                />
+                <span>{comments[comments.length - 1]?.userName}</span>
+              </p>
+            ) : null}
+          </div>
+          <input
+            type="text"
+            placeholder="Comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <button>
+            {" "}
+            <SendIcon />
+          </button>
+        </div>
+      )}
+      {postComments && (
+        <CommentsModal>
+          <div
+            className="commentHeader"
+            style={{ padding: "1.1vmax", fontFamily: "Roboto" }}
+          >
+            <h3 style={{ textAlign: "center" }}>{`${ownerName}'s Post`}</h3>
+            <button
+              id="commentBoxClose"
+              onClick={() => showPostComments(!postComments)}
+            >
+              close
+            </button>
+          </div>
+          <hr />
+          <div className="comments">
+            {comments.map((comment) => (
+              <p key={comment.id}>{comment.comment}</p>
+            ))}
+          </div>
+        </CommentsModal>
+      )}
     </div>
   );
 };

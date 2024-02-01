@@ -9,8 +9,13 @@ import {
   registerRequest,
   registerSuccess,
   registerFaliure,
+  updateUserInfo,
 } from "../Slices/userSlice";
-
+import {
+  followUnfolowRequest,
+  followUnfolowSuccess,
+  followUnfolowFaliure,
+} from "../Slices/followUnfollowSlice";
 export const loginUser = async (email, password, dispatch) => {
   try {
     dispatch(loginRequest());
@@ -41,7 +46,14 @@ export const loadUser = async (dispatch) => {
     console.log(error);
   }
 };
-
+export const loadOnUpdate = async (dispatch) => {
+  try {
+    const { data } = await axios.get("/api/v1/me");
+    dispatch(updateUserInfo(data.user));
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const updateProfile = async (dispatch, formData) => {
   try {
     const { data } = await axios.put("/api/v1/update/profile", formData, {
@@ -83,13 +95,14 @@ export const registerUser = async (dispatch, formData) => {
   }
 };
 
-export const followUnfollowUser = async (userId) => {
+export const followUnfollowUser = async (dispatch, userId) => {
   try {
-    const { data } = axios.get(`/api/v1/follow/${userId}`);
-    if (data) {
-      console.log(data);
-    }
+    dispatch(followUnfolowRequest());
+    const { data } = await axios.get(`/api/v1/follow/${userId}`);
+    if (data) dispatch(followUnfolowSuccess(data.message));
+    loadOnUpdate(dispatch);
+    return data.message;
   } catch (error) {
-    console.log(error.response.data.message);
+    return false;
   }
 };

@@ -6,6 +6,8 @@ const userSlice = createSlice({
     isAuthenticated: false,
     loading: false,
     curSearchUser: null,
+    followers: [],
+    followings: [],
   },
 
   reducers: {
@@ -20,6 +22,8 @@ const userSlice = createSlice({
       state.user = action.payload;
       state.isAuthenticated = true;
       state.isLoggedIn = true;
+      state.followers = state.user.followers;
+      state.followings = state.user.following;
     },
     loginFaliure: (state, action) => {
       state.loading = false;
@@ -47,6 +51,8 @@ const userSlice = createSlice({
       state.isAuthenticated = true;
       state.user = action.payload;
       state.loading = false;
+      state.followers = state.user.followers;
+      state.followings = state.user.following;
     },
     loadUserFaliure: (state, action) => {
       state.isAuthenticated = false;
@@ -67,10 +73,16 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.isAuthenticated = false;
     },
+    updateUserInfo: (state, action) => {
+      state.followings = action.payload.following;
+      state.followers = action.payload.followers;
+    },
   },
 });
 
 export const {
+  updateUserInfo,
+  makeBoing,
   setCurSearchUser,
   loginRequest,
   loginSuccess,
