@@ -14,6 +14,7 @@ import { Oval } from "react-loader-spinner";
 import Register from "./Components/Register/Register";
 import RightBar from "./Components/RightBar/RightBar";
 import SearchUser from "./Components/SearchUser/SearchUser";
+import Friends from "./Components/Friends/Friends";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ function App() {
             />
           }
         />
+        <Route path="/friends" element={<Friends />} />
         <Route path="/search" element={<SearchUser />} />
         <Route path="/register" element={<Register />} />
       </Routes>

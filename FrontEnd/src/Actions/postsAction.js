@@ -83,10 +83,10 @@ export const geRandomPosts = async () => {
 };
 
 // postComment
-export const postComment = async (dispatch, id, comment) => {
+export const postComment = async (id, comment) => {
   try {
     const { data } = axios.put(
-      `/api/v1/post/comment/:${id}`,
+      `/api/v1/post/comment/${id}`,
       { comment },
       {
         headers: {
@@ -94,5 +94,17 @@ export const postComment = async (dispatch, id, comment) => {
         },
       }
     );
-  } catch (error) {}
+    return data.message;
+  } catch (error) {
+    return null;
+  }
+};
+
+//PostAction
+export const likeUnlikePost = async (id) => {
+  try {
+    const { data } = await axios.get(`/api/v1/post/${id}`);
+  } catch (error) {
+    console.log(error);
+  }
 };

@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 
 // Schema of Post
 const postSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
   caption: String,
 
   image: {
@@ -18,6 +21,10 @@ const postSchema = new mongoose.Schema({
       url: String,
     },
     name: String,
+    isBot: {
+      type: Boolean,
+      default: false,
+    },
   },
   createdAt: {
     type: Date,
@@ -25,16 +32,24 @@ const postSchema = new mongoose.Schema({
   },
   likes: [
     {
-      type: mongoose.Schema.Types.ObjectId, // Data type of each owner will be generated automatically
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],
   comments: [
     {
-      id: String,
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
       user: {
-        type: mongoose.Schema.Types.ObjectId, // Data type of each owner will be generated automatically
-        ref: "User",
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+        },
+        image: {
+          public_id: String,
+          url: String,
+        },
+        name: String,
       },
       comment: {
         type: String,

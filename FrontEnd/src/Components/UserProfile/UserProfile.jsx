@@ -14,15 +14,6 @@ import "./UserProfile.scss";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
-// userName={loggedInUser?.name}
-//               userAvatar={loggedInUser?.avatar.url}
-//               userEmail={loggedInUser?.email}
-//               userBio={loggedInUser?.bio}
-//               userJoinedDate={loggedInUser?.joinedDate}
-//               userFollowers={loggedInUser?.followers}
-//               userFollowing={loggedInUser?.following}
-//               userPosts={loggedInUser?.posts}
-//               userId={loggedInUser?._id}
 const UserProfile = ({ isAuthenticatedUser }) => {
   // State for profile editing
   const loggedInUser = useSelector((state) => state.user.user);

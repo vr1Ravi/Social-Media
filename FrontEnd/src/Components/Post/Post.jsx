@@ -6,8 +6,13 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { deletePost, updatePostCaption } from "../../Actions/postsAction";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deletePost,
+  updatePostCaption,
+  postComment,
+  likeUnlikePost,
+} from "../../Actions/postsAction";
 import { useRef } from "react";
 import CommentsModal from "../Modals/CommentsModal/CommentsModal";
 const Post = ({
@@ -21,6 +26,8 @@ const Post = ({
   ownerId,
   isDelete = false,
   isProfile = false,
+  loadPosts,
+  reload,
 }) => {
   const [liked, setLiked] = useState(false);
   const [editDisplay, setEditDisplay] = useState(false);
@@ -30,8 +37,11 @@ const Post = ({
   const [comment, setComment] = useState("");
   const moreHorizIconRef = useRef(null);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
 
-  const handleLikeUnlike = () => {
+  const handleLikeUnlike = async (postId) => {
+    await likeUnlikePost(postId);
+    loadPosts(!reload);
     setLiked(!liked);
   };
   document.addEventListener("click", (e) => {
@@ -58,6 +68,11 @@ const Post = ({
   };
   const handleCommentClick = () => {
     showPostComments(!postComments);
+  };
+  const handlepostComment = async (postId, comment) => {
+    await postComment(postId, comment);
+    setComment("");
+    loadPosts(!reload);
   };
 
   return (
@@ -114,8 +129,8 @@ const Post = ({
 
       <button>{likes.length} likes</button>
       <div className="postFooter">
-        <button onClick={handleLikeUnlike}>
-          {liked ? (
+        <button onClick={() => handleLikeUnlike(postId)}>
+          {likes.includes(user._id) ? (
             <FavoriteIcon style={{ color: "crimson" }} />
           ) : (
             <FavoriteBorderIcon />
@@ -128,24 +143,13 @@ const Post = ({
       </div>
       {!isProfile && (
         <div className="postComment">
-          <div className="recentComment">
-            {comments ? (
-              <p>
-                <img
-                  src={comments[comments.length - 1]?.userAvatar.url}
-                  alt=""
-                />
-                <span>{comments[comments.length - 1]?.userName}</span>
-              </p>
-            ) : null}
-          </div>
           <input
             type="text"
             placeholder="Comment"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <button>
+          <button onClick={() => handlepostComment(postId, comment)}>
             {" "}
             <SendIcon />
           </button>
@@ -168,7 +172,10 @@ const Post = ({
           <hr />
           <div className="comments">
             {comments.map((comment) => (
-              <p key={comment.id}>{comment.comment}</p>
+              <div className="comment" key={comment.user._id}>
+                <img src={comment.user.image.url} alt="" />
+                <p>{comment.comment}</p>
+              </div>
             ))}
           </div>
         </CommentsModal>

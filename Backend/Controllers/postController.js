@@ -1,6 +1,5 @@
 import { Post } from "../Models/PostModel.js";
 import { User } from "../Models/UserModel.js";
-import { RandomPost } from "../Models/RandomPosts.js";
 import { cloudinary } from "../app.js";
 // createPost Controller
 export const createPost = async (req, res) => {
@@ -32,10 +31,6 @@ export const createPost = async (req, res) => {
 
     // creating new Post
     const post = await Post.create(newPostData);
-
-    // finding user by req.user._id
-
-    if (user.isBot) await RandomPost.create(newPostData);
 
     // pushing the new post into posts array of particular user
     user.posts.unshift(post._id);
@@ -80,7 +75,6 @@ export const likeAndUnlikePost = async (req, res) => {
       });
     } else {
       // adding into likes array
-      console.log(req.user._id);
       post.likes.push(req.user._id);
 
       // saving changes
@@ -216,7 +210,8 @@ export const commentOnPost = async (req, res) => {
   try {
     const { comment } = req.body;
     const user = req.user;
-    const post = await Post.findById(req.params.id);
+    let post = await Post.findById(req.params.id);
+
     if (!post) {
       return res.status(404).json({
         success: false,
@@ -229,7 +224,7 @@ export const commentOnPost = async (req, res) => {
 
     for (let i = 0; i < commentsArr.length; i++) {
       const comment = commentsArr[i];
-      if (comment.user.toString() === req.user._id.toString()) {
+      if (comment.user._id.toString() === user._id.toString()) {
         userCommentExists = true;
         index = i;
         break;
@@ -244,7 +239,14 @@ export const commentOnPost = async (req, res) => {
       });
     } else {
       post.comments.push({
-        user: req.user._id,
+        user: {
+          _id: user._id,
+          image: {
+            public_id: user.avatar.public_id,
+            url: user.avatar.url,
+          },
+          name: user.name,
+        },
         comment: comment,
         userName: user.name,
         userAvatar: user.avatar,
@@ -318,8 +320,7 @@ export const deleteComment = async (req, res) => {
 // Get Random Posts
 export const getRandomPost = async (req, res) => {
   try {
-    const randomPosts = await RandomPost.find();
-
+    const randomPosts = await Post.find({ "owner.isBot": true });
     return res.status(200).json({
       success: true,
       randomPosts,

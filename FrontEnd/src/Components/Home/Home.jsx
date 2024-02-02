@@ -6,17 +6,23 @@ import { useDispatch, useSelector } from "react-redux";
 import Post from "../Post/Post";
 import { useEffect, useState } from "react";
 import PhotoIcon from "@mui/icons-material/Photo";
-import { geRandomPosts, uploadPost } from "../../Actions/postsAction";
+import {
+  geRandomPosts,
+  uploadPost,
+  getPostsOfFollwingUsers,
+} from "../../Actions/postsAction";
 import { loadUser } from "../../Actions/userAction";
 const Home = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [caption, setCaption] = useState("");
   const [randomPosts, setRandomPosts] = useState([]);
+  const [reload, setReload] = useState(false);
   const { user } = useSelector((state) => state.user);
   const { posts } = useSelector((state) => state.posts);
   const { newPost } = useSelector((state) => state.posts);
   const { loading } = useSelector((state) => state.posts);
+
   const dispatch = useDispatch();
 
   const handleImageInputChange = (event) => {
@@ -52,8 +58,10 @@ const Home = () => {
       const randomPosts = await geRandomPosts();
       setRandomPosts(randomPosts);
     }
+    console.log("in");
     bringRandomPosts();
-  }, []);
+    getPostsOfFollwingUsers(dispatch);
+  }, [reload]);
 
   return (
     <div className="homeContainer">
@@ -123,6 +131,8 @@ const Home = () => {
                 ownerImage={post.owner.image.url}
                 ownerName={post.owner.name}
                 ownerId={post.owner._id}
+                loadPosts={setReload}
+                reload={reload}
               />
             );
           })}
@@ -139,6 +149,8 @@ const Home = () => {
                 ownerImage={user.avatar.url}
                 ownerName={post.name}
                 ownerId={user._id}
+                loadPosts={setReload}
+                reload={reload}
               />
             );
           })}
