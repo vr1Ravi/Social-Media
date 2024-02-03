@@ -14,23 +14,30 @@ import "./UserProfile.scss";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
-const UserProfile = ({ isAuthenticatedUser }) => {
-  // State for profile editing
-  const loggedInUser = useSelector((state) => state.user.user);
+const UserProfile = ({
+  userName,
+  userAvatar,
+  userEmail,
+  userBio,
+  userJoinedDate,
+  userFollowers,
+  userFollowing,
+  userPosts,
+  userId,
+  isAuthenticated,
+}) => {
   const followers = useSelector((state) => state.user.followers);
   const followings = useSelector((state) => state.user.followings);
 
-  const [newName, setNewName] = useState(loggedInUser.name);
-  const [newEmail, setNewEmail] = useState(loggedInUser.email);
-  const [newBio, setNewBio] = useState(loggedInUser.bio);
-  const [profilePicPreview, setProfilePicPreview] = useState(
-    loggedInUser.avatar.url
-  );
-  const [profileImg, setProfileImg] = useState(loggedInUser.avatar.url);
+  const [newName, setNewName] = useState(userName);
+  const [newEmail, setNewEmail] = useState(userEmail);
+  const [newBio, setNewBio] = useState(userBio);
+  const [profilePicPreview, setProfilePicPreview] = useState(userAvatar);
+  const [profileImg, setProfileImg] = useState(userAvatar);
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const dispatch = useDispatch();
 
-  const date = new Date(loggedInUser.joinedDate);
+  const date = new Date(userJoinedDate);
   const options = {
     year: "numeric",
     month: "long",
@@ -88,8 +95,8 @@ const UserProfile = ({ isAuthenticatedUser }) => {
       {/* User Information */}
       <div className="userInfo">
         <div className="userUpperPart">
-          <img src={loggedInUser.avatar.url} alt="userProfilePic" />
-          {isAuthenticatedUser && (
+          <img src={userAvatar} alt="userProfilePic" />
+          {isAuthenticated && (
             <div className="profileUppeButtons">
               <button onClick={handleEditProfileClick}>Edit profile</button>
 
@@ -100,8 +107,8 @@ const UserProfile = ({ isAuthenticatedUser }) => {
           )}
         </div>
         <div className="userLowerPart">
-          <p>{loggedInUser.name}</p>
-          <p>{loggedInUser.bio}</p>
+          <p>{userName}</p>
+          <p>{userBio}</p>
           <p>Joined {formattedDate}</p>
         </div>
         <div className="userFooter">
@@ -180,17 +187,17 @@ const UserProfile = ({ isAuthenticatedUser }) => {
 
       {/* User Posts */}
       <div className="userPosts">
-        {loggedInUser.posts.map((post) => (
+        {userPosts.map((post) => (
           <Post
             postId={post?._id}
             caption={post?.caption}
             postImage={post?.image?.url}
             likes={post?.likes}
             comments={post?.comments}
-            ownerImage={loggedInUser.avatar.url}
-            ownerName={loggedInUser.name}
+            ownerImage={userAvatar}
+            ownerName={userName}
             key={post?._id}
-            ownerId={loggedInUser._id}
+            ownerId={userId}
             isProfile={true}
           />
         ))}

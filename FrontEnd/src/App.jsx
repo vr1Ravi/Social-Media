@@ -22,6 +22,7 @@ function App() {
   const loggedInUser = useSelector((state) => state.user.user);
   const curSearchUser = useSelector((state) => state.user.curSearchUser);
   const isLoading = useSelector((state) => state.user.loading);
+  const { user } = useSelector((state) => state.user);
   console.log("reloaded");
   useEffect(() => {
     loadUser(dispatch);
@@ -58,7 +59,20 @@ function App() {
         <Route path="/" element={isAuthenticated ? <Home /> : <Login />} />
         <Route
           path={`/${loggedInUser?.name}`}
-          element={<UserProfile isAuthenticated={isAuthenticated} />}
+          element={
+            <UserProfile
+              userName={user?.name}
+              userAvatar={user?.avatar.url}
+              userEmail={user?.email}
+              userBio={user?.bio}
+              userJoinedDate={user?.joinedDate}
+              userFollowers={user?.followers}
+              userFollowing={user?.following}
+              userPosts={user?.posts}
+              userId={user?._id}
+              isAuthenticated={isAuthenticated}
+            />
+          }
         />
         <Route
           path={`/profile/${curSearchUser?.name}`}

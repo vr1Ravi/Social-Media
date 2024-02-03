@@ -171,7 +171,10 @@ export const followOrUnfollowUser = async (req, res) => {
 // getProflie
 export const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).populate("posts");
+    const user = await User.findById(req.user._id)
+      .populate("posts")
+      .populate("followers")
+      .populate("following");
     return res.status(200).json({
       success: true,
       user,
@@ -315,7 +318,10 @@ export const getUserProfile = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    const user = await User.findById(userId).populate("posts");
+    const user = await User.findById(userId)
+      .populate("posts")
+      .populate("followers")
+      .populate("following");
     if (!user) {
       return res.status(404).json({
         success: false,
