@@ -15,6 +15,7 @@ import Register from "./Components/Register/Register";
 import RightBar from "./Components/RightBar/RightBar";
 import SearchUser from "./Components/SearchUser/SearchUser";
 import Friends from "./Components/Friends/Friends";
+import Onboarding from "./Components/Onboarding/Onboarding";
 
 function App() {
   const dispatch = useDispatch();
@@ -56,7 +57,8 @@ function App() {
     <BrowserRouter>
       {isAuthenticated && <Header />}
       <Routes>
-        <Route path="/" element={isAuthenticated ? <Home /> : <Login />} />
+        <Route path="/" element={isAuthenticated ? <Home /> : <Onboarding />} />
+        <Route path="/login" element={isAuthenticated ? <Home /> : <Login />} />
         <Route
           path={`/${loggedInUser?.name}`}
           element={
