@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { registerUser } from "../../Actions/userAction";
-import "./Register.scss";
 import { useDispatch } from "react-redux";
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +18,7 @@ const Register = () => {
     formData.append("bio", bio);
     formData.append("profileImg", profileImg);
     await registerUser(dispatch, formData);
-    window.location.href = '/';
+    window.location.href = '/timeline';
   };
   const handleUserProfile = (e) => {
     const file = e.target.files[0];
@@ -33,33 +32,29 @@ const Register = () => {
     }
   };
   return (
-    <div className="loginContainer">
-      <form className="loginForm" onSubmit={(e) => handleSubmit(e)}>
-        <h3>Social App</h3>
-        <div className="inputImageBox">
+    <div className="h-screen overflow-hidden">
+      <h1 className=" mt-4 text-center text-4xl font-bold font-mono">Hello Welcome!</h1>
+      <p className="text-center text-slate-600 mt-1 mb-4">Sign up to your account</p>
+      <form className="mt-1 h-4/5" onSubmit={(e) => handleSubmit(e)}>
+      <div className="w-4/5  h-full ml-auto mr-auto flex flex-col items-center justify-evenly">
+  
           {" "}
           <input
             type="file"
             accept="image/*"
+          className="w-24  p-5 border border-slate-200  outline-green-600 rounded-xl z-10 opacity-0"
             onChange={(e) => handleUserProfile(e)}
             placeholder="Choose a Profile Pic"
-            style={{
-              width: "100px",
-              height: "100px",
-              opacity: 0,
-              zIndex: 1,
-              position: "relative",
-            }}
           />
           <img
-            style={{
-              position: "absolute",
-              top: "1rem",
-              left: "1rem",
-              width: "100px",
-              cursor: "pointer",
-              borderRadius: "50%",
-            }}
+            className=" w-24 h-24 rounded-full absolute mt-2"
+            style={
+              {
+                top: "20%",
+                left: "50%",
+                transform: "translate(-50%,-50%)"
+              }
+            }
             src={
               profileImgPreview
                 ? profileImgPreview
@@ -67,12 +62,12 @@ const Register = () => {
             }
             alt="profile"
           />
-        </div>
         <input
           type="text"
           placeholder="Name"
           required
           value={name}
+          className="w-11/12 md:w-2/3 lg:w-1/3 p-5 border border-slate-200  outline-green-600 rounded-xl"
           onChange={(e) => setName(e.target.value)}
         />
         <input
@@ -80,6 +75,7 @@ const Register = () => {
           placeholder="Email"
           required
           value={email}
+          className="w-11/12 md:w-2/3 lg:w-1/3 p-5 border border-slate-200  outline-green-600 rounded-xl"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
@@ -87,6 +83,7 @@ const Register = () => {
           placeholder="Password"
           required
           value={password}
+          className="w-11/12 md:w-2/3 lg:w-1/3 p-5 border border-slate-200  outline-green-600 rounded-xl"
           onChange={(e) => {
             setPassword(e.target.value);
           }}
@@ -96,12 +93,13 @@ const Register = () => {
           placeholder="Bio"
           required
           value={bio}
+          className="w-11/12 md:w-2/3 lg:w-1/3 p-5 border border-slate-200  outline-green-600 rounded-xl"
           onChange={(e) => {
             setBio(e.target.value);
           }}
         />
-
-        <button type="submit">Register</button>
+        <button className="text-white bg-green-500 p-3 rounded w-2/3 lg:w-1/4 active:bg-green-700 transition-all delay-100 ease-in" type="submit">Register</button>
+      </div>
       </form>
     </div>
   );

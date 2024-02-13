@@ -1,6 +1,4 @@
 // import User from "../User/User";
-import "./Home.scss";
-
 import { ColorRing } from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import Post from "../Post/Post";
@@ -12,10 +10,10 @@ import {
   getPostsOfFollwingUsers,
 } from "../../Actions/postsAction";
 import { loadUser } from "../../Actions/userAction";
+import Header from "../Header/Header";
 const Home = () => {
-  const [imagePreview, setImagePreview] = useState(null);
-  const [imageFile, setImageFile] = useState(null);
-  const [caption, setCaption] = useState("");
+
+
   const [randomPosts, setRandomPosts] = useState([]);
   const [reload, setReload] = useState(false);
   const { user } = useSelector((state) => state.user);
@@ -64,35 +62,10 @@ const Home = () => {
   }, [reload]);
 
   return (
-    <div className="homeContainer">
-      <div className="homeLeft">
-        <div className="createPost">
-          <div className="caption">
-            <img src={user.avatar.url} alt="user" />
-            <input
-              type="text"
-              placeholder={`What's happening ${user.name}`}
-              value={caption}
-              onChange={(e) => setCaption(e.target.value)}
-            />
-          </div>
-          <hr />
-          <div className="postImage">
-            <div className="imageToPost">
-              {imagePreview && <img src={imagePreview} alt="imagePreview" />}
-            </div>
-            <div className="actionToPost">
-              {" "}
-              <PhotoIcon />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageInputChange}
-              />
-              <button onClick={handlePostClick}>Post</button>
-            </div>
-          </div>
-        </div>
+    <div className="ml-auto mr-auto w-2/3">
+      <h1 className=" font-bold text-green-600 mt-8">Feed</h1>
+      <hr />
+      <div className="w-1/2">
         {loading && (
           <ColorRing
             visible={true}
@@ -103,57 +76,19 @@ const Home = () => {
             wrapperClass="blocks-wrapper"
             colors={["#5944d8", "#5944d8", "#5944d8", "#5944d8", "#5944d8"]}
           />
-        )}
-        {newPost && (
-          <Post
-            key={newPost._id}
-            postId={newPost._id}
-            caption={newPost.caption}
-            postImage={newPost.image.url}
-            likes={newPost.likes}
-            comments={newPost.comments}
-            ownerImage={user.avatar.url}
-            ownerName={user.name}
-            ownerId={user._id}
-            isDelete={true}
-          />
-        )}
-        {randomPosts &&
-          randomPosts.map((post) => {
-            return (
-              <Post
-                key={post._id}
-                postId={post._id}
-                caption={post.caption}
-                postImage={post.image.url}
-                likes={post.likes}
-                comments={post.comments}
-                ownerImage={post.owner.image.url}
-                ownerName={post.owner.name}
-                ownerId={post.owner._id}
-                loadPosts={setReload}
-                reload={reload}
-              />
-            );
-          })}
-        {posts &&
-          posts.map((post) => {
-            return (
-              <Post
-                key={post._id}
-                postId={post._id}
-                caption={post.caption}
-                postImage={post.image.url}
-                likes={post.likes}
-                comments={post.comments}
-                ownerImage={user.avatar.url}
-                ownerName={post.name}
-                ownerId={user._id}
-                loadPosts={setReload}
-                reload={reload}
-              />
-            );
-          })}
+        )}   
+        <div className="flex justify-around p-3 items-center">
+          <div className="flex w-3/4 items-center">
+            <img className="w-12" src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png" alt="" />
+            <p className="ml-3">prisha</p>
+          </div>
+          <button className="  h-6 bg-green-400 text-white pl-3 pr-3 rounded-full">follow</button>
+        </div>
+        <div className="flex flex-col  ">
+               
+        </div>
+
+        <div className="flex"></div>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import "./Header.scss";
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -18,27 +17,58 @@ const Header = () => {
   const [currentTab, setCurrentTab] = useState(currentPath);
   const user = useSelector((state) => state.user.user);
   return (
-    <div className="header">
-      <Link to="/" onClick={() => setCurrentTab("/")}>
-        {currentTab === "/" ? <Home /> : <HomeOutlined />}
-        <span>Home</span>
+    <div className=" h-screen w-1/6 flex flex-col justify-evenly border-r-2 items-center border-slate-400 ">
+      <Link className="w-1/2" to="/" onClick={() => setCurrentTab("/")}>
+
+        {currentTab === "/" ?
+         <div className="  flex justify-around items-center text-green-600">
+          <Home/><p className= "font-bold ">Home</p>
+          </div>
+           : <div className=" flex justify-around items-center"><HomeOutlined /><p className="font-semibold ">Home</p></div> }
+        
       </Link>
-      <Link to="/search" onClick={() => setCurrentTab("/search")}>
+      <Link className="w-1/2" to="/" onClick={() => setCurrentTab("/search")}>
         {currentTab === "/search" ? (
-          <Search style={{ fontWeight: "bold" }} />
+        <div className="flex justify-around items-center text-green-600">
+            <Search />
+          <p  className=" font-bold">Search</p>
+        </div>
         ) : (
-          <SearchOutlined />
+          <div className="flex justify-around items-center">
+            <SearchOutlined />
+            <p className="font-semibold ">Search</p>
+          </div>
         )}
-        <span>Search</span>
       </Link>
-      <Link to="/friends" onClick={() => setCurrentTab("/friends")}>
-        {currentTab === "/friends" ? <GroupIcon /> : <PeopleOutlineIcon />}
-        <span>Friends</span>
+      <Link className="w-1/2" to="/" onClick={() => setCurrentTab("/friends")}>
+
+        {currentTab === "/friends" ?
+           <div className="flex justify-around items-center text-green-600">
+            <GroupIcon />
+         <p className= "font-bold ">Friends</p>
+           </div>
+          : 
+          <div className="flex justify-around items-center">
+            <PeopleOutlineIcon />
+            <p className="font-semibold ">Friends</p>
+          </div>
+          }
       </Link>
 
-      <Link to={`/${user.name}`} onClick={() => setCurrentTab("/me")}>
-        {currentTab === "/me" ? <AccountCircle /> : <AccountCircleOutlined />}
-        <span>Profile</span>
+      <Link className="w-1/2" to={`/`} onClick={() => setCurrentTab("/me")}>
+        {currentTab === "/me" ?
+         <div className="flex justify-around items-center text-green-600">
+          <AccountCircle />
+         <p className=" font-bold">Profile</p>
+         </div>
+         :
+         
+          <div className="flex justify-around items-center">
+              <AccountCircleOutlined />
+              <p className="font-semibold ">Profile</p>
+          </div>
+
+          }
       </Link>
     </div>
   );

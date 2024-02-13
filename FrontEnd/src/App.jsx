@@ -55,10 +55,11 @@ function App() {
   }
   return (
     <BrowserRouter>
-      {isAuthenticated && <Header />}
+    {isAuthenticated && <Header />}
       <Routes>
         <Route path="/" element={isAuthenticated ? <Home /> : <Onboarding />} />
-        <Route path="/login" element={isAuthenticated ? <Home /> : <Login />} />
+        <Route path="/login" element={<Login isAuthenticated />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path={`/${loggedInUser?.name}`}
           element={
@@ -95,9 +96,7 @@ function App() {
         />
         <Route path="/friends" element={<Friends />} />
         <Route path="/search" element={<SearchUser />} />
-        <Route path="/register" element={<Register />} />
       </Routes>
-      {isAuthenticated && <RightBar />}
     </BrowserRouter>
   );
 }

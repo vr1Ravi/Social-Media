@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./RightBar.scss";
 import axios from "axios";
 import { followUnfollowUser } from "../../Actions/userAction";
 import { useSelector, useDispatch } from "react-redux";
