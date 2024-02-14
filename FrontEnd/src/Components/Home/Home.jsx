@@ -10,6 +10,7 @@ import {
   getPostsOfFollwingUsers,
 } from "../../Actions/postsAction";
 import { loadUser } from "../../Actions/userAction";
+
 const Home = () => {
   const [randomPosts, setRandomPosts] = useState([]);
   const [reload, setReload] = useState(false);
@@ -58,34 +59,16 @@ const Home = () => {
   }, [reload]);
 
   return (
-    <div className="ml-auto mr-auto w-2/3 h-screen overflow-auto">
-      <h1 className=" font-bold text-green-600 mt-8">Feed</h1>
-      <hr />
-      <div className="w-1/2 flex flex-col justify-center items-center">
-        <div className="w-full flex justify-between pt-3 pb-3 items-center">
-          <div className="flex  items-center">
-            <img
-              className="w-12"
-              src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"
-              alt=""
-            />
-            <p className="ml-3">prisha</p>
-          </div>
-          <button className="h-6 bg-green-400 text-white pl-3 pr-3 rounded-full pt-2 pb-2 text-base">
-            follow
-          </button>
-        </div>
-        <div className="flex w-full flex-col bg-slate-500 h-1/3 ">
-          <img src="" alt="" />
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-            necessitatibus.
-          </p>
-        </div>
-
-        <div className="flex"></div>
-      </div>
+    <>
+    <h1 className=" font-bold text-green-600 mt-8 ml-4 text-3xl pb-2 h-fit">Feed</h1>
+     <hr />
+      <div className=" border border-t-2 border-l-0 border-r-0 border-b-0 scroll-smooth no-scrollbar mt-16 ml-auto mr-auto w-2/3 h-screen overflow-auto flex flex-col justify-start items-center">
+      <Post/>
+      <Post/>
+      <Post/>
     </div>
+    </>
+  
   );
 };
 

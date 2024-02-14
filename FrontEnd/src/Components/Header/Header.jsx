@@ -55,7 +55,7 @@ const Header = () => {
           }
       </Link>
 
-      <Link className="w-1/2" to={`/`} onClick={() => setCurrentTab("/me")}>
+      <Link className="w-1/2" to={`/${user.name}`} onClick={() => setCurrentTab("/me")}>
         {currentTab === "/me" ?
          <div className="flex justify-around items-center text-green-600">
           <AccountCircle />

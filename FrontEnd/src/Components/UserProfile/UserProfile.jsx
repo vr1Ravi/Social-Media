@@ -5,14 +5,14 @@ import Modal from "../Modals/EditModal/EditModal";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import CloseIcon from "@mui/icons-material/Close";
 import { updateProfile } from "../../Actions/userAction";
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
   logoutRequest,
   logoutSuccess,
   logoutFaliure,
 } from "../../Slices/userSlice";
-import "./UserProfile.scss";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 
 const UserProfile = ({
   userName,
@@ -22,20 +22,12 @@ const UserProfile = ({
   userJoinedDate,
   userFollowers,
   userFollowing,
-  userPosts,
+  userPosts, 
   userId,
   isAuthenticated,
 }) => {
   const followers = useSelector((state) => state.user.followers);
   const followings = useSelector((state) => state.user.followings);
-
-  const [newName, setNewName] = useState(userName);
-  const [newEmail, setNewEmail] = useState(userEmail);
-  const [newBio, setNewBio] = useState(userBio);
-  const [profilePicPreview, setProfilePicPreview] = useState(userAvatar);
-  const [profileImg, setProfileImg] = useState(userAvatar);
-  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
-  const dispatch = useDispatch();
 
   const date = new Date(userJoinedDate);
   const options = {
@@ -43,148 +35,42 @@ const UserProfile = ({
     month: "long",
   };
   const formattedDate = date.toLocaleString("en-US", options);
-
-  // Handle Edit Profile button click
-  const handleEditProfileClick = () => {
-    setShowEditProfileModal(!showEditProfileModal);
-  };
-
-  // Handle Close Modal button click
-  const handleCloseModal = () => {
-    setShowEditProfileModal(!showEditProfileModal);
-    setNewName(userName);
-    setNewEmail(userEmail);
-    setNewBio(userBio);
-  };
-  // Handle image change for profile picture
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setProfileImg(file);
-
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setProfilePicPreview(reader.result);
-      };
-    }
-  };
-
-  // Handle profile save button click
-  const handleProfileSave = async () => {
-    const formData = new FormData();
-    formData.append("profileImg", profileImg);
-    formData.append("newName", newName);
-    formData.append("newEmail", newEmail);
-    formData.append("newBio", newBio);
-
-    await updateProfile(dispatch, formData);
-  };
-  // Handle User Logout
-  const handleUserLogout = async () => {
-    try {
-      dispatch(logoutRequest());
-      const { data } = await axios.get("/api/v1/logout");
-      dispatch(logoutSuccess());
-    } catch (error) {
-      dispatch(logoutFaliure);
-    }
-  };
+ 
   return (
-    <div className="userProfile">
+    <div className=" w-full md:w-4/5 md:h-4/5">
       {/* User Information */}
-      <div className="userInfo">
+      <header className="relative h-11 mt-4">
+        <h1 className="text-center text-green-600 text-3xl border border-b-2 border-t-0 w-full font-bold">Profile</h1>
+      <Link to={`/${userName}/settings`}><SettingsIcon  className="absolute right-1 top-1  text-4xl text-gray-500"/></Link>  
+      </header>
+      <div className="flex flex-col items-center mt-4 justify-around h-3/4">
         <div className="userUpperPart">
-          <img src={userAvatar} alt="userProfilePic" />
-          {isAuthenticated && (
-            <div className="profileUppeButtons">
-              <button onClick={handleEditProfileClick}>Edit profile</button>
-
-              <button onClick={handleUserLogout}>
-                <Link to={"/"}>LogOut</Link>
-              </button>
-            </div>
-          )}
+          <img className="rounded-full border-green-600  border-4" src={userAvatar} alt="userProfilePic" />
         </div>
-        <div className="userLowerPart">
-          <p>{userName}</p>
+        <div className="mt-3 h-20 flex flex-col justify-between font-mono ">
+          <p className="font-semibold">{userName}</p>
           <p>{userBio}</p>
-          <p>Joined {formattedDate}</p>
+          <i>Joined {formattedDate}</i>
         </div>
-        <div className="userFooter">
-          <div className="userFollowing">
+        <div className="w-1/2 flex justify-between mt-6">
+          <div className="p-1 pl-2 pr-2 md:p-2 bg-green-600 text-white rounded-full">
             <Link
               to="/profile/following"
-              style={{ textDecoration: "none", color: "black" }}
             >
               {followers.length}{" "}
-              <span style={{ color: "rgb(138 152 165)" }}> Followers</span>
+              <span> Followers</span>
             </Link>
           </div>
-          <div className="userFollower">
+          <div className="p-1 pl-2 pr-2 md:p-2 bg-green-600 text-white rounded-full">
             <Link
               to="/profile/following"
-              style={{ textDecoration: "none", color: "black" }}
             >
               {followings.length}{" "}
-              <span style={{ color: "rgb(138 152 165)" }}>Following</span>
+              <span >Following</span>
             </Link>
           </div>
         </div>
       </div>
-
-      {/* Edit Profile Modal */}
-      {showEditProfileModal && (
-        <Modal>
-          <div className="editProfileContainer">
-            <div className="editProfileBox">
-              <div className="editProfilePic">
-                <CameraEnhanceIcon />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-                <img src={profilePicPreview} alt="profilePic" />
-                <button className="editSaveButton" onClick={handleProfileSave}>
-                  Save
-                </button>
-                <div className="close">
-                  <CloseIcon onClick={handleCloseModal} />
-                </div>
-              </div>
-              <div className="inputBox">
-                <input
-                  type="text"
-                  id="name"
-                  placeholder="Enter New Name"
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                />
-              </div>
-              <div className="inputBox">
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Enter New Email"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                />
-              </div>
-              <div className="inputBox">
-                <input
-                  type="text"
-                  id="bio"
-                  placeholder="Enter New Bio"
-                  value={newBio}
-                  onChange={(e) => setNewBio(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-        </Modal>
-      )}
-
       {/* User Posts */}
       <div className="userPosts">
         {userPosts.map((post) => (

@@ -1,11 +1,9 @@
 import { useState } from "react";
 import "./Friends.scss";
 import { useSelector } from "react-redux";
-import User from "../User/User";
 const Friends = () => {
   const [type, setType] = useState("Followers");
   const { user } = useSelector((state) => state.user);
-  console.log(user);
   const handleFollowersClick = () => {
     setType("Followers");
   };
@@ -29,23 +27,7 @@ const Friends = () => {
           Following
         </button>
       </div>
-      {type === "Followers" ? (
-        <div className="displayUsers">
-          {user?.followers.length ? (
-            user.followers.map((user) => <User key={user._id} user={user} />)
-          ) : (
-            <p className="para">No Followers 👴 </p>
-          )}
-        </div>
-      ) : (
-        <div className="displayUsers">
-          {user?.following ? (
-            user.following.map((user) => <User key={user._id} user={user} />)
-          ) : (
-            <p className="para">No Following 👴</p>
-          )}
-        </div>
-      )}
+     
     </div>
   );
 };

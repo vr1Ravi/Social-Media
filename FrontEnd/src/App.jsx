@@ -16,6 +16,7 @@ import RightBar from "./Components/RightBar/RightBar";
 import SearchUser from "./Components/SearchUser/SearchUser";
 import Friends from "./Components/Friends/Friends";
 import Onboarding from "./Components/Onboarding/Onboarding";
+import UserProfileSetting from "./Components/UserProfileSetting/UserProfileSetting";
 
 function App() {
   const dispatch = useDispatch();
@@ -80,6 +81,7 @@ function App() {
             />
           }
         />
+        <Route path= {`/${loggedInUser?.name}/settings`} element = {<UserProfileSetting/>}/>
         <Route
           path={`/profile/${curSearchUser?.name}`}
           element={

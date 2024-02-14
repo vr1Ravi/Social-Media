@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./SearchUser.scss";
 import axios from "axios";
-import User from "../User/User";
 import { SearchOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -73,11 +72,6 @@ const SearchUser = () => {
             )}
           </div>
         )}
-      </div>
-      <div className="displayUsers">
-        {users.map((user) => (
-          <User key={user._id} user={user} />
-        ))}
       </div>
     </div>
   );
