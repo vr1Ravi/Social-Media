@@ -17,26 +17,26 @@ const Header = () => {
   const [currentTab, setCurrentTab] = useState(currentPath);
   const user = useSelector((state) => state.user.user);
   return (
-    <div className=" h-screen w-1/6 flex flex-col justify-evenly border-r-2 items-center border-slate-400 ">
+    <div className=" absolute w-screen bottom-0  md:h-screen md:w-1/5 flex md:flex-col justify-evenly border-r-2 items-center border-slate-400   md:static">
       <Link className="w-1/2" to="/" onClick={() => setCurrentTab("/")}>
 
         {currentTab === "/" ?
          <div className="  flex justify-around items-center text-green-600">
-          <Home/><p className= "font-bold ">Home</p>
+          <Home/><p className= "font-bold hidden md:block">Home</p>
           </div>
-           : <div className=" flex justify-around items-center"><HomeOutlined /><p className="font-semibold ">Home</p></div> }
+           : <div className=" flex justify-around items-center"><HomeOutlined /><p className="font-semibold hidden md:block">Home</p></div> }
         
       </Link>
       <Link className="w-1/2" to="/" onClick={() => setCurrentTab("/search")}>
         {currentTab === "/search" ? (
         <div className="flex justify-around items-center text-green-600">
             <Search />
-          <p  className=" font-bold">Search</p>
+          <p  className=" font-bold hidden md:block">Search</p>
         </div>
         ) : (
           <div className="flex justify-around items-center">
             <SearchOutlined />
-            <p className="font-semibold ">Search</p>
+            <p className="font-semibold hidden md:block">Search</p>
           </div>
         )}
       </Link>
@@ -45,12 +45,12 @@ const Header = () => {
         {currentTab === "/friends" ?
            <div className="flex justify-around items-center text-green-600">
             <GroupIcon />
-         <p className= "font-bold ">Friends</p>
+         <p className= "font-bold hidden md:block">Friends</p>
            </div>
           : 
           <div className="flex justify-around items-center">
             <PeopleOutlineIcon />
-            <p className="font-semibold ">Friends</p>
+            <p className="font-semibold hidden md:block">Friends</p>
           </div>
           }
       </Link>
@@ -59,13 +59,13 @@ const Header = () => {
         {currentTab === "/me" ?
          <div className="flex justify-around items-center text-green-600">
           <AccountCircle />
-         <p className=" font-bold">Profile</p>
+         <p className=" font-bold hidden md:block">Profile</p>
          </div>
          :
          
           <div className="flex justify-around items-center">
               <AccountCircleOutlined />
-              <p className="font-semibold ">Profile</p>
+              <p className="font-semibold hidden md:block">Profile</p>
           </div>
 
           }
