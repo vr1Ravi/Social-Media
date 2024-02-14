@@ -10,16 +10,12 @@ import {
   getPostsOfFollwingUsers,
 } from "../../Actions/postsAction";
 import { loadUser } from "../../Actions/userAction";
-import Header from "../Header/Header";
 const Home = () => {
-
-
   const [randomPosts, setRandomPosts] = useState([]);
   const [reload, setReload] = useState(false);
   const { user } = useSelector((state) => state.user);
   const { posts } = useSelector((state) => state.posts);
   const { newPost } = useSelector((state) => state.posts);
-  const { loading } = useSelector((state) => state.posts);
 
   const dispatch = useDispatch();
 
@@ -62,30 +58,29 @@ const Home = () => {
   }, [reload]);
 
   return (
-    <div className="ml-auto mr-auto w-2/3">
+    <div className="ml-auto mr-auto w-2/3 h-screen overflow-auto">
       <h1 className=" font-bold text-green-600 mt-8">Feed</h1>
       <hr />
-      <div className="w-1/2">
-        {loading && (
-          <ColorRing
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="blocks-loading"
-            wrapperStyle={{}}
-            wrapperClass="blocks-wrapper"
-            colors={["#5944d8", "#5944d8", "#5944d8", "#5944d8", "#5944d8"]}
-          />
-        )}   
-        <div className="flex justify-around p-3 items-center">
-          <div className="flex w-3/4 items-center">
-            <img className="w-12" src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png" alt="" />
+      <div className="w-1/2 flex flex-col justify-center items-center">
+        <div className="w-full flex justify-between pt-3 pb-3 items-center">
+          <div className="flex  items-center">
+            <img
+              className="w-12"
+              src="https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"
+              alt=""
+            />
             <p className="ml-3">prisha</p>
           </div>
-          <button className="  h-6 bg-green-400 text-white pl-3 pr-3 rounded-full">follow</button>
+          <button className="h-6 bg-green-400 text-white pl-3 pr-3 rounded-full pt-2 pb-2 text-base">
+            follow
+          </button>
         </div>
-        <div className="flex flex-col  ">
-               
+        <div className="flex w-full flex-col bg-slate-500 h-1/3 ">
+          <img src="" alt="" />
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
+            necessitatibus.
+          </p>
         </div>
 
         <div className="flex"></div>
