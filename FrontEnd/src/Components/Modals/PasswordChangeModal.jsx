@@ -1,11 +1,10 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import "./CommentsModal.scss";
-const CommentsModal = ({ children }) => {
+
+const PasswordChangeModal = ({ children }) => {
   const elRef = useRef(null);
   if (!elRef.current) {
     elRef.current = document.createElement("div");
-    elRef.current.classList.add("commentsBox");
   }
 
   useEffect(() => {
@@ -20,4 +19,4 @@ const CommentsModal = ({ children }) => {
 
   return createPortal(<div>{children}</div>, elRef.current);
 };
-export default CommentsModal;
+export default PasswordChangeModal;
