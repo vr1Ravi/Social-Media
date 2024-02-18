@@ -38,7 +38,7 @@ const UserProfile = ({
   const formattedDate = date.toLocaleString("en-US", options);
 
   return (
-    <div className=" w-full md:w-4/5 h-screen">
+    <div className=" w-full md:w-4/5">
       {/* User Information */}
       <header className="relative h-11 mt-4">
         <h1 className="text-center text-green-600 text-3xl border border-b-2 border-t-0 w-full font-bold">
@@ -61,8 +61,8 @@ const UserProfile = ({
           <p>{userBio}</p>
           <i>Joined {formattedDate}</i>
         </div>
-        <div className="w-1/2 flex justify-between mt-6">
-          <div className="p-1 pl-2 pr-2 md:p-2 bg-green-600 text-white rounded-full">
+        <div className="flex justify-between mt-6">
+          <div className="p-1 pl-2 pr-2 md:p-2 bg-green-600 text-white rounded-full mr-4">
             <Link to="/profile/following">
               {followers.length} <span> Followers</span>
             </Link>
@@ -78,7 +78,10 @@ const UserProfile = ({
       <h1 className="text-center text-green-600 text-3xl border border-b-2 border-t-0 w-full font-bold">
         Posts
       </h1>
-      <div className="grid grid-cols-2 md:grid-cols-3  h-screen gap-2 overflow-y-auto p-2 ">
+      <div
+        className="grid grid-cols-2 md:grid-cols-3  gap-2 overflow-y-auto p-2 "
+        style={{ maxHeight: "calc(100vh - 50vh)" }}
+      >
         <ProfilePost />
         <ProfilePost />
         <ProfilePost />

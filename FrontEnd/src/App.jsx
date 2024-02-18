@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import Header from "./Components/Header/Header";
 
@@ -61,9 +61,12 @@ function App() {
         <Route path="/" element={isAuthenticated ? <Home /> : <Onboarding />} />
         <Route
           path="/login"
-          element={<Login isAuthenticated={isAuthenticated} />}
+          element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
         />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <Register />}
+        />
         <Route
           path={`/${loggedInUser?.name}`}
           element={
@@ -81,7 +84,10 @@ function App() {
             />
           }
         />
-        <Route path= {`/${loggedInUser?.name}/settings`} element = {<UserProfileSetting/>}/>
+        <Route
+          path={`/${loggedInUser?.name}/settings`}
+          element={<UserProfileSetting />}
+        />
         <Route
           path={`/profile/${curSearchUser?.name}`}
           element={

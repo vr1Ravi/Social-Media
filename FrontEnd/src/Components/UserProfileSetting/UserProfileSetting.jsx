@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import PasswordChangeModal from "../Modals/PasswordChangeModal";
 const UserProfileSetting = () => {
   const user = useSelector((state) => state.user.user);
+  console.log(user);
   const [showModal, setShowModal] = useState(false);
   const handlePasswordChange = (e) => {
     e.preventDefault();
@@ -25,9 +26,7 @@ const UserProfileSetting = () => {
             left: "50%",
             transform: "translate(-50%,-50%)",
           }}
-          src={
-            "https://www.pngall.com/wp-content/uploads/5/Profile-PNG-File.png"
-          }
+          src={user.avatar.url}
           alt="profile"
         />
 

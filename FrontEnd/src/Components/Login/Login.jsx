@@ -3,12 +3,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Actions/userAction";
 
-const Login = ({ isAuthenticated }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  console.log(isAuthenticated);
-  if (isAuthenticated) location.href = "/";
   const loginHandler = async (e) => {
     e.preventDefault();
     await loginUser(email, password, dispatch);

@@ -5,7 +5,7 @@ const ProfilePost = () => {
   return (
     <div className="flex w-full flex-col rounded-lg mb-4">
       <img
-        className=" h-80 w-full rounded-lg"
+        className=" h-1/2 w-full rounded-lg"
         src="https://hips.hearstapps.com/hmg-prod/images/adult-woman-taking-a-selfie-in-the-evening-with-the-royalty-free-image-1683751384.jpg?crop=1.00xw:0.446xh;0,0.360xh&resize=980:*"
         alt=""
       />
