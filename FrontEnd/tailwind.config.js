@@ -3,13 +3,19 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      animation: {
-        wrongInput: "wrongInput 1s ease-in-out linear forwards",
-      },
       keyframes: {
         wrongInput: {
           "100%": { transform: "translateX(0)" },
         },
+        searchUserInput: {
+          "0%": { transform: "translateY(-100vh)" },
+          "100%": { transform: "translateY(0vh)" },
+        },
+      },
+
+      animation: {
+        wrongInput: "wrongInput 1s ease-in-out linear forwards",
+        searchUserInput: "searchUserInput 2s ease-in-out linear forwards",
       },
 
       translate: {

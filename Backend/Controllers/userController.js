@@ -197,7 +197,7 @@ export const updatePassword = async (req, res) => {
     if (!oldPassword || !newPassword) {
       return res.status(400).json({
         success: false,
-        message: "Please provide oldPassword and newpassword",
+        message: "Please provide oldPassword or newPassword",
       });
     }
     const isMatch = await user.matchPassword(oldPassword);
@@ -205,7 +205,7 @@ export const updatePassword = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({
         success: false,
-        message: "Please enter correct old password",
+        message: "Please enter valid old password",
       });
     } else if (newPassword.length < 8) {
       return res.status(400).json({
@@ -369,7 +369,7 @@ export const forgotPassword = async (req, res) => {
       });
     }
 
-    const resetPasswordToken = user.getResetPasswordToken();
+    const resetPasswordToken = await user.getResetPasswordToken();
     await user.save();
 
     // created reset Url link
@@ -416,10 +416,11 @@ export const resetPassword = async (req, res) => {
         message: "Wrong resetToken",
       });
     }
-    const resetPasswordToken = crypto // more Hashed
+    const resetPasswordToken = crypto
       .createHash("sha256")
       .update(req.params.token)
       .digest("hex");
+
     const user = await User.findOne({
       resetPasswordToken,
       resetPasswordExpire: { $gt: Date.now() },

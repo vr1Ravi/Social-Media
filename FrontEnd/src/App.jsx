@@ -68,7 +68,7 @@ function App() {
           element={isAuthenticated ? <Navigate to="/" replace /> : <Register />}
         />
         <Route
-          path={`/${loggedInUser?.name}`}
+          path={`/:userName`}
           element={
             <UserProfile
               userName={user?.name}
@@ -84,10 +84,7 @@ function App() {
             />
           }
         />
-        <Route
-          path={`/${loggedInUser?.name}/settings`}
-          element={<UserProfileSetting />}
-        />
+        <Route path={`/:userName/settings`} element={<UserProfileSetting />} />
         <Route
           path={`/profile/${curSearchUser?.name}`}
           element={

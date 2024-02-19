@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const Header = () => {
-  const currentPath = window.location.pathname; // To get current url path.
+  const currentPath = localStorage.getItem("path") || "/";
   const [currentTab, setCurrentTab] = useState(currentPath);
   const user = useSelector((state) => state.user.user);
   return (
@@ -31,7 +31,14 @@ const Header = () => {
           </div>
         )}
       </Link>
-      <Link className="w-1/2" to="/" onClick={() => setCurrentTab("/search")}>
+      <Link
+        className="w-1/2"
+        to="/search"
+        onClick={() => {
+          localStorage.setItem("path", "/search");
+          setCurrentTab("/search");
+        }}
+      >
         {currentTab === "/search" ? (
           <div className="flex justify-around items-center text-green-600">
             <Search />
@@ -47,7 +54,10 @@ const Header = () => {
       <Link
         className="w-1/2"
         to="/friends"
-        onClick={() => setCurrentTab("/friends")}
+        onClick={() => {
+          localStorage.setItem("path", "/friends");
+          setCurrentTab("/friends");
+        }}
       >
         {currentTab === "/friends" ? (
           <div className="flex justify-around items-center text-green-600">
@@ -65,7 +75,10 @@ const Header = () => {
       <Link
         className="w-1/2"
         to={`/${user.name}`}
-        onClick={() => setCurrentTab("/me")}
+        onClick={() => {
+          localStorage.setItem("path", "/me");
+          setCurrentTab("/me");
+        }}
       >
         {currentTab === "/me" ? (
           <div className="flex justify-around items-center text-green-600">
