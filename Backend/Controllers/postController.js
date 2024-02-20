@@ -21,14 +21,8 @@ export const createPost = async (req, res) => {
       },
       owner: {
         _id: user._id,
-        image: {
-          public_id: user.avatar.public_id,
-          url: user.avatar.url,
-        },
-        name: user.name,
       },
     };
-
     // creating new Post
     const post = await Post.create(newPostData);
 

@@ -12,16 +12,15 @@ import Home from "./Components/Home/Home";
 import UserProfile from "./Components/UserProfile/UserProfile";
 import { Oval } from "react-loader-spinner";
 import Register from "./Components/Register/Register";
-import RightBar from "./Components/RightBar/RightBar";
 import SearchUser from "./Components/SearchUser/SearchUser";
 import Friends from "./Components/Friends/Friends";
 import Onboarding from "./Components/Onboarding/Onboarding";
 import UserProfileSetting from "./Components/UserProfileSetting/UserProfileSetting";
+import ComposePost from "./Components/ComposePost/ComposePost";
 
 function App() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const loggedInUser = useSelector((state) => state.user.user);
   const curSearchUser = useSelector((state) => state.user.curSearchUser);
   const isLoading = useSelector((state) => state.user.loading);
   const { user } = useSelector((state) => state.user);
@@ -100,6 +99,14 @@ function App() {
               userId={curSearchUser?._id}
               isAuthenticatedUser={false}
             />
+          }
+        />
+        <Route
+          path="/compose/post"
+          element={
+            <ComposePost>
+              <Home />
+            </ComposePost>
           }
         />
         <Route path="/friends" element={<Friends />} />

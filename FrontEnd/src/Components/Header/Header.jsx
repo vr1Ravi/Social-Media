@@ -17,8 +17,15 @@ const Header = () => {
   const [currentTab, setCurrentTab] = useState(currentPath);
   const user = useSelector((state) => state.user.user);
   return (
-    <div className=" absolute w-screen bottom-0  md:h-screen md:w-1/5 flex md:flex-col justify-evenly border-r-2 items-center border-slate-400   md:static">
-      <Link className="w-1/2" to="/" onClick={() => setCurrentTab("/")}>
+    <div className=" bg-white shadow-inner pt-3 md:pt-0 absolute w-screen bottom-0  md:h-screen md:w-1/5 flex md:flex-col justify-evenly border-r-2 items-center border-slate-400   md:static">
+      <Link
+        className="w-1/2"
+        to="/"
+        onClick={() => {
+          localStorage.setItem("path", "/");
+          setCurrentTab("/");
+        }}
+      >
         {currentTab === "/" ? (
           <div className="  flex justify-around items-center text-green-600">
             <Home />

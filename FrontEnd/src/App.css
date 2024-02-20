@@ -2,9 +2,14 @@
   margin: 0;
   padding: 0;
 }
-#root{
-display: flex;
+#root {
+  display: flex;
 }
-body{
+body {
   overflow: hidden;
+}
+@media screen and (max-width: 764px) {
+  #root {
+    display: block;
+  }
 }

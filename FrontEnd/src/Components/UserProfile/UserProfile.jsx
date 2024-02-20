@@ -80,7 +80,7 @@ const UserProfile = ({
       </h1>
       <div
         className="grid grid-cols-2 md:grid-cols-3  gap-2 overflow-y-auto p-2 "
-        style={{ maxHeight: "calc(100vh - 50vh)" }}
+        style={{ height: "calc(100vh - 50vh)" }}
       >
         <ProfilePost />
         <ProfilePost />
