@@ -17,9 +17,7 @@ const Post = ({
 }) => {
   const { user } = useSelector((state) => state.user);
   const isLiked = likes.find((like) => like._id === user._id);
-  const handlePostLikeUnlike = () => {
-    console.log("ok");
-  };
+  const handlePostLikeUnlike = () => {};
   return (
     <div className="w-full md:w-2/3 flex flex-col justify-center items-center mt-2">
       <div className="w-full flex justify-between pt-3 pb-3 items-center">

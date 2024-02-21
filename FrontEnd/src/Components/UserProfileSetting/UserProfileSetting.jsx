@@ -55,12 +55,7 @@ const UserProfileSetting = () => {
               Change Password
             </button>
           </div>
-          <button
-            className="absolute bottom-2 left-2 w-1/3 md:w-1/5 p-5 bg-green-600 text-white rounded-xl font-semibold font-mono"
-            type="submit"
-          >
-            Logout
-          </button>
+
           <button
             className="absolute bottom-2 right-2 w-1/3 md:w-1/5 p-5 bg-green-600 text-white rounded-xl font-semibold font-mono"
             type="submit"

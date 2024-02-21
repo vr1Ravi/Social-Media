@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Post from "../Post/Post";
 import Modal from "../Modals/EditModal/EditModal";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import CloseIcon from "@mui/icons-material/Close";
-import { updateProfile } from "../../Actions/userAction";
+import { logOutUser, updateProfile } from "../../Actions/userAction";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {
   logoutRequest,
@@ -29,17 +29,21 @@ const UserProfile = ({
 }) => {
   const followers = useSelector((state) => state.user.followers);
   const followings = useSelector((state) => state.user.followings);
-
+  const navigate = useNavigate();
   const date = new Date(userJoinedDate);
   const options = {
     year: "numeric",
     month: "long",
   };
   const formattedDate = date.toLocaleString("en-US", options);
+  const handleLogoutClick = async () => {
+    const message = await logOutUser();
+    alert(message);
+    navigate("/");
+  };
 
   return (
     <div className=" w-full md:w-4/5">
-      {/* User Information */}
       <header className="relative h-11 mt-4">
         <h1 className="text-center text-green-600 text-3xl border border-b-2 border-t-0 w-full font-bold">
           Profile
@@ -48,8 +52,8 @@ const UserProfile = ({
           <SettingsIcon className="absolute right-1 top-1  text-4xl text-gray-500" />
         </Link>
       </header>
-      <div className="flex flex-col items-center mt-4 justify-around h-1/3 md:h-1/3 md:flex-row">
-        <div className="userUpperPart">
+      <div className=" relative flex flex-col items-center mt-4 justify-around h-1/3 md:h-1/3 md:flex-row">
+        <div>
           <img
             className="rounded-full border-green-600  border-4"
             src={userAvatar}
@@ -73,6 +77,12 @@ const UserProfile = ({
             </Link>
           </div>
         </div>
+        <button
+          className="absolute top-2 right-2 w-1/5 md:w-1/12 p-2 bg-pink-600 text-white rounded-md font-semibold font-mono"
+          onClick={handleLogoutClick}
+        >
+          Logout
+        </button>
       </div>
       {/* User Posts */}
       <h1 className="text-center text-green-600 text-3xl border border-b-2 border-t-0 w-full font-bold">

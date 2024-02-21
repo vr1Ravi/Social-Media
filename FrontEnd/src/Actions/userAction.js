@@ -11,11 +11,7 @@ import {
   registerFaliure,
   updateUserInfo,
 } from "../Slices/userSlice";
-import {
-  followUnfolowRequest,
-  followUnfolowSuccess,
-  followUnfolowFaliure,
-} from "../Slices/followUnfollowSlice";
+
 export const loginUser = async (email, password, dispatch) => {
   try {
     dispatch(loginRequest());
@@ -95,14 +91,14 @@ export const registerUser = async (dispatch, formData) => {
   }
 };
 
-export const followUnfollowUser = async (dispatch, userId) => {
-  try {
-    dispatch(followUnfolowRequest());
-    const { data } = await axios.get(`/api/v1/follow/${userId}`);
-    if (data) dispatch(followUnfolowSuccess(data.message));
-    loadOnUpdate(dispatch);
-    return data.message;
-  } catch (error) {
-    return false;
-  }
-};
+// export const followUnfollowUser = async (dispatch, userId) => {
+//   try {
+//     dispatch(followUnfolowRequest());
+//     const { data } = await axios.get(`/api/v1/follow/${userId}`);
+//     if (data) dispatch(followUnfolowSuccess(data.message));
+//     loadOnUpdate(dispatch);
+//     return data.message;
+//   } catch (error) {
+//     return false;
+//   }
+// };
