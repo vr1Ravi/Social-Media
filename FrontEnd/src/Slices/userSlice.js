@@ -29,7 +29,6 @@ const userSlice = createSlice({
       state.loading = false;
       state.user = null;
       state.isAuthenticated = false;
-      state.isLoggedIn = false;
     },
     logoutFaliure: (state, action) => {
       state.loading = false;
