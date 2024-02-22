@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import FriendsProfile from "./FriendsProfile";
+import User from "./User";
 const Friends = () => {
   const [type, setType] = useState("Followers");
   const { user } = useSelector((state) => state.user);
@@ -33,7 +33,7 @@ const Friends = () => {
         </button>
       </div>
       <div className=" flex  justify-start p-4 h-screen">
-        <FriendsProfile />
+        <User isLoggedInUser={true} />
       </div>
     </div>
   );

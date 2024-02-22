@@ -17,101 +17,79 @@ import Friends from "./Components/Friends/Friends";
 import Onboarding from "./Components/Onboarding/Onboarding";
 import UserProfileSetting from "./Components/UserProfileSetting/UserProfileSetting";
 import ComposePost from "./Components/ComposePost/ComposePost";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      cacheTime: Infinity,
+    },
+  },
+});
 function App() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const curSearchUser = useSelector((state) => state.user.curSearchUser);
-  const isLoading = useSelector((state) => state.user.loading);
-  const { user } = useSelector((state) => state.user);
+  const { loadingUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     loadUser(dispatch);
   }, []);
-  if (isLoading) {
+  if (loadingUser) {
     return (
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <Oval
-          height={80}
-          width={80}
-          color="#4fa94d"
-          wrapperStyle={{}}
-          wrapperClass=""
           visible={true}
+          height="40"
+          width="40"
+          color="#4fa94d"
           ariaLabel="oval-loading"
-          secondaryColor="#4fa94d"
-          strokeWidth={2}
-          strokeWidthSecondary={2}
+          strokeWidth="7"
         />
       </div>
     );
   }
   return (
     <BrowserRouter>
-      {isAuthenticated && <Header />}
-      <Routes>
-        <Route path="/" element={isAuthenticated ? <Home /> : <Onboarding />} />
-        <Route
-          path="/login"
-          element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
-        />
-        <Route
-          path="/register"
-          element={isAuthenticated ? <Navigate to="/" replace /> : <Register />}
-        />
-        <Route
-          path={`/:userName`}
-          element={
-            <UserProfile
-              userName={user?.name}
-              userAvatar={user?.avatar.url}
-              userEmail={user?.email}
-              userBio={user?.bio}
-              userJoinedDate={user?.joinedDate}
-              userFollowers={user?.followers}
-              userFollowing={user?.following}
-              userPosts={user?.posts}
-              userId={user?._id}
-              isAuthenticated={isAuthenticated}
-            />
-          }
-        />
-        <Route path={`/:userName/settings`} element={<UserProfileSetting />} />
-        <Route
-          path={`/profile/${curSearchUser?.name}`}
-          element={
-            <UserProfile
-              userName={curSearchUser?.name}
-              userAvatar={curSearchUser?.avatar.url}
-              userEmail={curSearchUser?.email}
-              userBio={curSearchUser?.bio}
-              userJoinedDate={curSearchUser?.joinedDate}
-              userFollowers={curSearchUser?.followers}
-              userFollowing={curSearchUser?.following}
-              userPosts={curSearchUser?.posts}
-              userId={curSearchUser?._id}
-              isAuthenticatedUser={false}
-            />
-          }
-        />
-        <Route
-          path="/compose/post"
-          element={
-            <ComposePost>
-              <Home />
-            </ComposePost>
-          }
-        />
-        <Route path="/friends" element={<Friends />} />
-        <Route path="/search" element={<SearchUser />} />
-      </Routes>
+      <QueryClientProvider client={queryClient}>
+        {isAuthenticated && <Header />}
+        <Routes>
+          <Route
+            path="/"
+            element={isAuthenticated ? <Home /> : <Onboarding />}
+          />
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+          />
+          <Route
+            path="/register"
+            element={
+              isAuthenticated ? <Navigate to="/" replace /> : <Register />
+            }
+          />
+          <Route path={`/:userName`} element={<UserProfile />} />
+          <Route
+            path={`/:userName/settings`}
+            element={
+              isAuthenticated ? (
+                <Navigate to="/" replace />
+              ) : (
+                <UserProfileSetting />
+              )
+            }
+          />
+          <Route
+            path="/compose/post"
+            element={
+              <ComposePost>
+                <Home />
+              </ComposePost>
+            }
+          />
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/search" element={<SearchUser />} />
+        </Routes>
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }

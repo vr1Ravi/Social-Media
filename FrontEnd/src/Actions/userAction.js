@@ -3,6 +3,9 @@ import {
   loginRequest,
   loginSuccess,
   loginFaliure,
+  logoutRequest,
+  logoutSuccess,
+  logoutFaliure,
   loadUserRequest,
   loadUserSuccess,
   loadUserFaliure,
@@ -66,12 +69,14 @@ export const updateProfile = async (dispatch, formData) => {
   }
 };
 
-export const logOutUser = async () => {
+export const logOutUser = async (dispatch) => {
   try {
-    const { data } = await axios.get("/api/v1/logout");
-    return data.message;
+    dispatch(logoutRequest());
+    await axios.get("/api/v1/logout");
+    location.href = "/";
+    setTimeout(dispatch(logoutSuccess()), 100);
   } catch (error) {
-    return null;
+    dispatch(logoutFaliure(error.message));
   }
 };
 
@@ -102,3 +107,13 @@ export const registerUser = async (dispatch, formData) => {
 //     return false;
 //   }
 // };
+
+export const fetchAllUsers = async ({ queryKey }) => {
+  const page = queryKey[1];
+  try {
+    const { data } = await axios.get(`/api/v1/users?page=${page}`);
+    return data.users;
+  } catch (error) {
+    return [];
+  }
+};

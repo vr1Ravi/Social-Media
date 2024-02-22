@@ -59,6 +59,7 @@ const Register = () => {
           className="w-24  p-5 border border-slate-200  outline-green-600 rounded-xl z-10 opacity-0"
           onChange={(e) => handleUserProfile(e)}
           placeholder="Choose a Profile Pic"
+          required
         />
         <img
           className=" w-24 h-24 rounded-full absolute"
@@ -79,18 +80,14 @@ const Register = () => {
           placeholder="Name"
           name="name"
           required
-          // value={name}
           className="mt-8 w-11/12 md:w-2/3 lg:w-1/3 p-2 border border-slate-200  outline-green-600 rounded-xl"
-          // onChange={(e) => setName(e.target.value)}
         />
         <input
           type="email"
           placeholder="Email"
           name="email"
           required
-          // value={email}
           className="mt-8 w-11/12 md:w-2/3 lg:w-1/3 p-2 border border-slate-200  outline-green-600 rounded-xl"
-          // onChange={(e) => setEmail(e.target.value)}
         />
         <div className="mt-8 w-11/12 md:w-2/3 lg:w-1/3 relative ">
           <input
@@ -136,11 +133,7 @@ const Register = () => {
           placeholder="Bio"
           name="bio"
           required
-          // value={bio}
           className="mt-8 w-11/12 md:w-2/3 lg:w-1/3 p-2 border border-slate-200  outline-green-600 rounded-xl"
-          // onChange={(e) => {
-          //   setBio(e.target.value);
-          // }}
         />
         <button
           className="mt-8 text-white bg-green-500 p-3 rounded w-2/3 lg:w-1/4 active:bg-green-700 transition-all delay-100 ease-in"

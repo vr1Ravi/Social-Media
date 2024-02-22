@@ -10,6 +10,7 @@ const Onboarding = () => {
       </div>
       <div className="h-1/2 p-4 flex flex-col justify-evenly items-center">
         <h1 className=" text-4xl font-bold font-mono">
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
           Let's connect with each other
         </h1>
 

@@ -5,6 +5,8 @@ const userSlice = createSlice({
   initialState: {
     isAuthenticated: false,
     loading: false,
+    loadingUser: false,
+    userToSearh_Id: null,
   },
 
   reducers: {
@@ -15,7 +17,6 @@ const userSlice = createSlice({
       state.loading = false;
       state.user = action.payload;
       state.isAuthenticated = true;
-      state.isLoggedIn = true;
     },
     loginFaliure: (state, action) => {
       state.loading = false;
@@ -36,17 +37,17 @@ const userSlice = createSlice({
       state.isAuthenticated = false;
     },
     loadUserRequest: (state) => {
-      state.loading = true;
+      state.loadingUser = true;
     },
     loadUserSuccess: (state, action) => {
       state.isAuthenticated = true;
       state.user = action.payload;
-      state.loading = false;
+      state.loadingUser = false;
     },
     loadUserFaliure: (state, action) => {
       state.isAuthenticated = false;
       state.error = action.payload;
-      state.loading = false;
+      state.loadingUser = false;
     },
     registerRequest: (state) => {
       state.loading = true;
@@ -60,6 +61,9 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
       state.isAuthenticated = false;
+    },
+    setUserToSearchId: (state, action) => {
+      state.userToSearh_Id = action.payload;
     },
   },
 });
@@ -80,5 +84,6 @@ export const {
   registerRequest,
   registerSuccess,
   registerFaliure,
+  setUserToSearchId,
 } = userSlice.actions;
 export default userSlice.reducer;

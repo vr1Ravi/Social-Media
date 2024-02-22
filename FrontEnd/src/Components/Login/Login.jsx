@@ -2,15 +2,33 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../Actions/userAction";
+import { Oval } from "react-loader-spinner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
   const loginHandler = async (e) => {
     e.preventDefault();
     await loginUser(email, password, dispatch);
   };
+  if (loading) {
+    return (
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center">
+        <Oval
+          visible={true}
+          height="20"
+          width="20"
+          color="#4fa94d"
+          ariaLabel="oval-loading"
+          strokeWidth="7"
+        />
+        <span className="ml-3 font-mono">Logging in</span>
+      </div>
+    );
+  }
   return (
     <div className="w-screen h-screen overflow-hidden">
       <h1 className=" mt-20 text-center text-4xl font-bold font-mono">
@@ -51,7 +69,9 @@ const Login = () => {
           >
             Sign in
           </button>
+
           <p className="mt-4">
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
             Don't have account? Let's{" "}
             <span className="text-green-600 underline">
               <Link to="/register">Sign up</Link>
