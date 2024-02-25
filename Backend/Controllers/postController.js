@@ -26,7 +26,7 @@ export const createPost = async (req, res) => {
     // creating new Post
     const post = await Post.create(newPostData);
 
-    // pushing the new post into posts array of particular user
+    // pushing the new post into posts array of authenticated user
     user.posts.unshift(post._id);
 
     // The below code is used to save changes made to a user document in the database.

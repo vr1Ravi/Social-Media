@@ -2,9 +2,6 @@ import mongoose from "mongoose";
 
 // Schema of Post
 const postSchema = new mongoose.Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-  },
   caption: String,
 
   image: {

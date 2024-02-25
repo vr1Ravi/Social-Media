@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+
 import User from "./User";
 const Friends = () => {
   const [type, setType] = useState("Followers");
-  const { user } = useSelector((state) => state.user);
+
   const handleFollowersClick = () => {
     setType("Followers");
   };

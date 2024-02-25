@@ -18,6 +18,7 @@ import Onboarding from "./Components/Onboarding/Onboarding";
 import UserProfileSetting from "./Components/UserProfileSetting/UserProfileSetting";
 import ComposePost from "./Components/ComposePost/ComposePost";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Errorpage from "./Components/Error/Error";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -30,7 +31,7 @@ function App() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const { loadingUser } = useSelector((state) => state.user);
-
+  const { user } = useSelector((state) => state.user);
   useEffect(() => {
     loadUser(dispatch);
   }, []);
@@ -67,16 +68,10 @@ function App() {
               isAuthenticated ? <Navigate to="/" replace /> : <Register />
             }
           />
-          <Route path={`/:userName`} element={<UserProfile />} />
+          <Route path={`/${user?.name}`} element={<UserProfile />} />
           <Route
             path={`/:userName/settings`}
-            element={
-              isAuthenticated ? (
-                <Navigate to="/" replace />
-              ) : (
-                <UserProfileSetting />
-              )
-            }
+            element={<UserProfileSetting />}
           />
           <Route
             path="/compose/post"
@@ -88,6 +83,8 @@ function App() {
           />
           <Route path="/friends" element={<Friends />} />
           <Route path="/search" element={<SearchUser />} />
+          <Route path={`/search/:id`} element={<UserProfile />} />
+          <Route path="*" element={<Errorpage />} />
         </Routes>
       </QueryClientProvider>
     </BrowserRouter>

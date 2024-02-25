@@ -1,16 +1,11 @@
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUserToSearchId } from "../../Slices/userSlice";
-const User = ({ isLoggedInUser, name, imageUrl, id, followers, following }) => {
-  const dispatch = useDispatch();
 
+const User = ({ isLoggedInUser, name, imageUrl, id, followers, following }) => {
+  console.log(followers, following);
   return (
     <Link
-      onClick={() => {
-        dispatch(setUserToSearchId(id));
-      }}
-      to={`/${name}`}
+      to={`/search/${id}`}
       className="relative flex flex-col justify-start w-1/4 h-1/5 md:h-1/3 items-center border rounded-sm"
     >
       <img

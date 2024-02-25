@@ -73,8 +73,7 @@ export const logOutUser = async (dispatch) => {
   try {
     dispatch(logoutRequest());
     await axios.get("/api/v1/logout");
-    location.href = "/";
-    setTimeout(dispatch(logoutSuccess()), 100);
+    dispatch(logoutSuccess());
   } catch (error) {
     dispatch(logoutFaliure(error.message));
   }
@@ -116,4 +115,12 @@ export const fetchAllUsers = async ({ queryKey }) => {
   } catch (error) {
     return [];
   }
+};
+
+export const fetchUser = async ({ queryKey }) => {
+  console.log(queryKey);
+  const id = queryKey[1];
+  if (id === undefined) return null;
+  const { data } = await axios.get(`/api/v1/user/${id}`);
+  return data.user;
 };

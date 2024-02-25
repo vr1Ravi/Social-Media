@@ -6,7 +6,6 @@ const userSlice = createSlice({
     isAuthenticated: false,
     loading: false,
     loadingUser: false,
-    userToSearh_Id: null,
   },
 
   reducers: {
@@ -62,9 +61,6 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.isAuthenticated = false;
     },
-    setUserToSearchId: (state, action) => {
-      state.userToSearh_Id = action.payload;
-    },
   },
 });
 
@@ -84,6 +80,5 @@ export const {
   registerRequest,
   registerSuccess,
   registerFaliure,
-  setUserToSearchId,
 } = userSlice.actions;
 export default userSlice.reducer;

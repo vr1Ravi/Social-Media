@@ -36,6 +36,7 @@ export const uploadPost = async (formData, dispatch) => {
     );
 
     dispatch(uploadPostSuccess(data.post));
+    loadUser(dispatch);
   } catch (error) {
     dispatch(uploadPostFaliure(error.response.data.message));
   }

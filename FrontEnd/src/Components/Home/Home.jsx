@@ -6,6 +6,9 @@ const Home = () => {
   const { user } = useSelector((state) => state.user);
   const recentPost = user?.posts[0];
   const navigate = useNavigate();
+  if (!user) {
+    return;
+  }
   return (
     <>
       <h1 className=" font-bold text-green-600 mt-8 ml-4 text-3xl pb-2 h-fit">
@@ -18,38 +21,38 @@ const Home = () => {
       >
         {recentPost && (
           <Post
-            ownerName={user?.name}
-            ownerId={user?._id}
-            ownerImage={user?.avatar.url}
+            ownerName={user.name}
+            ownerId={user._id}
+            ownerImage={user.avatar.url}
             caption={recentPost.caption}
             likes={recentPost.likes}
             comments={recentPost.comments}
-            postImage={recentPost.image.url}
+            postImage={recentPost.image?.url}
           />
         )}
         <Post
           caption={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
           necessitatibus."`}
           postImage={`https://hips.hearstapps.com/hmg-prod/images/adult-woman-taking-a-selfie-in-the-evening-with-the-royalty-free-image-1683751384.jpg?crop=1.00xw:0.446xh;0,0.360xh&resize=980:*`}
-          ownerImage={user?.avatar.url}
-          ownerName={user?.name}
-          ownerId={user?._id}
+          ownerImage={user.avatar.url}
+          ownerName={user.name}
+          ownerId={user._id}
         />
         <Post
           caption={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
           necessitatibus."`}
           postImage={`https://hips.hearstapps.com/hmg-prod/images/adult-woman-taking-a-selfie-in-the-evening-with-the-royalty-free-image-1683751384.jpg?crop=1.00xw:0.446xh;0,0.360xh&resize=980:*`}
-          ownerImage={user?.avatar.url}
-          ownerName={user?.name}
-          ownerId={user?._id}
+          ownerImage={user.avatar.url}
+          ownerName={user.name}
+          ownerId={user._id}
         />
         <Post
           caption={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
           necessitatibus."`}
           postImage={`https://hips.hearstapps.com/hmg-prod/images/adult-woman-taking-a-selfie-in-the-evening-with-the-royalty-free-image-1683751384.jpg?crop=1.00xw:0.446xh;0,0.360xh&resize=980:*`}
-          ownerImage={user?.avatar.url}
-          ownerName={user?.name}
-          ownerId={user?._id}
+          ownerImage={user.avatar.url}
+          ownerName={user.name}
+          ownerId={user._id}
         />
       </div>
       <div className="absolute right-10 bottom-10">

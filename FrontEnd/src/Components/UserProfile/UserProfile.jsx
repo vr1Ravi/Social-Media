@@ -1,19 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 // import CloseIcon from "@mui/icons-material/Close";
-import { logOutUser } from "../../Actions/userAction";
+import { fetchUser, logOutUser } from "../../Actions/userAction";
 import SettingsIcon from "@mui/icons-material/Settings";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ProfilePost from "../Post/ProfilePost";
 import { Oval } from "react-loader-spinner";
+import { useQuery } from "@tanstack/react-query";
 
 const UserProfile = () => {
-  const { user } = useSelector((state) => state.user);
+  let { user } = useSelector((state) => state.user);
   const { loading } = useSelector((state) => state.user);
   const { isAuthenticated } = useSelector((state) => state.user);
-  const { userToSearh_Id } = useSelector((state) => state.user);
-  console.log(userToSearh_Id);
   const dispatch = useDispatch();
+  const { id } = useParams();
+
+  const navigate = useNavigate();
   const date = new Date(user?.joinedDate);
   const options = {
     year: "numeric",
@@ -23,10 +26,20 @@ const UserProfile = () => {
   const handleLogoutClick = async () => {
     await logOutUser(dispatch);
     localStorage.removeItem("path");
+    navigate("/");
   };
-  if (loading) {
+
+  const handleFollowClick = async () => {};
+  const results = useQuery({
+    queryKey: ["userProfile", id],
+    queryFn: fetchUser,
+  });
+  if (loading || results.isLoading) {
     return (
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center">
+      <div
+        style={{ left: "60%" }}
+        className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center"
+      >
         <Oval
           visible={true}
           height="20"
@@ -35,18 +48,25 @@ const UserProfile = () => {
           ariaLabel="oval-loading"
           strokeWidth="7"
         />
-        <span className="ml-3 font-mono">Logging out</span>
+        {loading ? <span className="ml-3 font-mono">Logging out</span> : null}
       </div>
     );
   }
+  if (results.data) user = results.data;
+
   if (!isAuthenticated) return;
   return (
     <div className=" w-full md:w-4/5">
       <header className="relative h-11 mt-4">
+        {id && (
+          <button className="p2 ml-2" onClick={() => navigate("/search")}>
+            {<ArrowBackIcon />}
+          </button>
+        )}
         <h1 className="text-center text-green-600 text-3xl border border-b-2 border-t-0 w-full font-bold">
           Profile
         </h1>
-        {!userToSearh_Id && (
+        {!id && (
           <Link to={`/${user?.name}/settings`}>
             <SettingsIcon className="absolute right-1 top-1  text-4xl text-gray-500" />
           </Link>
@@ -77,12 +97,19 @@ const UserProfile = () => {
             </Link>
           </div>
         </div>
-        {!userToSearh_Id && (
+        {!id ? (
           <button
-            className="absolute top-2 right-2 w-1/5 md:w-1/12 p-2 bg-pink-600 text-white rounded-md font-semibold font-mono"
+            className="absolute top-2 right-2 w-1/5 md:w-1/12 p-2 bg-pink-600  text-white rounded-md font-semibold font-mono"
             onClick={handleLogoutClick}
           >
             Logout
+          </button>
+        ) : (
+          <button
+            className="absolute top-2 right-2 w-1/5 md:w-1/12 p-2 bg-green-600 text-white rounded-md font-semibold font-mono"
+            onClick={handleFollowClick}
+          >
+            Follow
           </button>
         )}
       </div>
@@ -91,15 +118,25 @@ const UserProfile = () => {
         Posts
       </h1>
       <div
-        className="grid grid-cols-2 md:grid-cols-3  gap-2 overflow-y-auto p-2 "
+        className="relative grid grid-cols-2 md:grid-cols-3  gap-2 overflow-y-auto p-2 "
         style={{ height: "calc(100vh - 50vh)" }}
       >
-        <ProfilePost />
-        <ProfilePost />
-        <ProfilePost />
-        <ProfilePost />
-        <ProfilePost />
-        <ProfilePost />
+        {user?.posts.length === 0 ? (
+          <h1 className=" font-extrabold font-mono text-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            No Posts Yet
+          </h1>
+        ) : (
+          user?.posts.map((post) => (
+            <ProfilePost
+              key={post._id}
+              caption={post.caption}
+              postSrc={post.image.url}
+              ownerName={user.name}
+              likes={post.likes.length}
+              comments={post.comments.length}
+            />
+          ))
+        )}
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ const postSlice = createSlice({
     loading: false,
     posts: [],
     error: null,
-    newPost: null,
   },
   reducers: {
     postOfFollowingUsersRequest: (state) => {
@@ -23,14 +22,17 @@ const postSlice = createSlice({
     uploadPostRequest: (state) => {
       state.loading = true;
     },
-    uploadPostSuccess: (state, action) => {
+    uploadPostSuccess: (state) => {
       state.loading = false;
-      state.newPost = action.payload;
     },
     uploadPostFaliure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
+    removeError: (state) => {
+      state.error = null;
+    },
+
     postCommentRequest: () => {},
   },
 });
@@ -41,5 +43,6 @@ export const {
   uploadPostRequest,
   uploadPostSuccess,
   uploadPostFaliure,
+  removeError,
 } = postSlice.actions;
 export default postSlice.reducer;

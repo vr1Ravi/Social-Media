@@ -1,15 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const UserProfileSetting = () => {
-  const user = useSelector((state) => state.user.user);
-
   const [showModal, setShowModal] = useState(false);
+  const user = useSelector((state) => state.user.user);
+  const navigate = useNavigate();
+  const { userName } = useParams();
+  useEffect(() => {
+    if (userName !== user?.name) {
+      localStorage.setItem("path", "/");
+      navigate("/");
+    }
+  }, []);
   const handleSaveNewPassword = (e) => {
     e.preventDefault();
   };
+  if (!user) {
+    return;
+  }
   return (
     <>
       <div className="w-full md:w-4/5 mt-10 flex justify-center items-center h-screen">
+        <button
+          className="absolute p2 ml-2"
+          onClick={() => navigate(`/${user.name}`)}
+        >
+          {<ArrowBackIcon />}
+        </button>
         <form className=" relative w-4/5 flex flex-col items-center justify-start shadow-sm shadow-green-500 h-4/5">
           <input
             type="file"
