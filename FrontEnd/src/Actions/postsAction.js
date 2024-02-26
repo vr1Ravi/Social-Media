@@ -20,11 +20,11 @@ export const getPostsOfFollwingUsers = async (dispatch) => {
 };
 
 // Upload post
-export const uploadPost = async (formData, dispatch) => {
+export const uploadPost = async (formData, dispatch, navigate) => {
   try {
     dispatch(uploadPostRequest());
     const { data } = await axios.post(
-      "/api/v1/post/upload",
+      "/api/v1/post/uplad",
 
       formData,
 
@@ -37,8 +37,9 @@ export const uploadPost = async (formData, dispatch) => {
 
     dispatch(uploadPostSuccess(data.post));
     loadUser(dispatch);
+    navigate("/");
   } catch (error) {
-    dispatch(uploadPostFaliure(error.response.data.message));
+    dispatch(uploadPostFaliure(error.message));
   }
 };
 

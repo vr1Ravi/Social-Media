@@ -16,8 +16,8 @@ const postSlice = createSlice({
       state.posts = action.payload;
     },
     postOfFollowingUsersFaliure: (state, action) => {
-      state.loading = false;
       state.error = action.payload;
+      state.loading = false;
     },
     uploadPostRequest: (state) => {
       state.loading = true;
@@ -29,6 +29,7 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
     removeError: (state) => {
       state.error = null;
     },

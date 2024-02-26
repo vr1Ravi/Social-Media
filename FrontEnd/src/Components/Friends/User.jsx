@@ -5,7 +5,7 @@ const User = ({ isLoggedInUser, name, imageUrl, id, followers, following }) => {
   console.log(followers, following);
   return (
     <Link
-      to={`/search/${id}`}
+      to={`/profile/${id}`}
       className="relative flex flex-col justify-start w-1/4 h-1/5 md:h-1/3 items-center border rounded-sm"
     >
       <img

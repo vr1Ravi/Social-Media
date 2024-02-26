@@ -17,6 +17,7 @@ const UserProfile = () => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
   const date = new Date(user?.joinedDate);
   const options = {
     year: "numeric",
@@ -59,7 +60,7 @@ const UserProfile = () => {
     <div className=" w-full md:w-4/5">
       <header className="relative h-11 mt-4">
         {id && (
-          <button className="p2 ml-2" onClick={() => navigate("/search")}>
+          <button className="p2 ml-2" onClick={() => navigate(-1)}>
             {<ArrowBackIcon />}
           </button>
         )}
@@ -67,7 +68,7 @@ const UserProfile = () => {
           Profile
         </h1>
         {!id && (
-          <Link to={`/${user?.name}/settings`}>
+          <Link to={`/${user.name}/settings`}>
             <SettingsIcon className="absolute right-1 top-1  text-4xl text-gray-500" />
           </Link>
         )}
@@ -81,23 +82,23 @@ const UserProfile = () => {
           />
         </div>
         <div className="mt-3 h-20 flex flex-col justify-between font-mono ">
-          <p className="font-semibold">{user?.name}</p>
-          <p>{user?.bio}</p>
+          <p className="font-semibold">{user.name}</p>
+          <p>{user.bio}</p>
           <i>Joined {formattedDate}</i>
         </div>
         <div className="flex justify-between mt-6">
           <div className="p-1 pl-2 pr-2 md:p-2 bg-green-600 text-white rounded-full mr-4">
             <Link to="/profile/following">
-              {user?.followers.length} <span> Followers</span>
+              {user.followers.length} <span> Followers</span>
             </Link>
           </div>
           <div className="p-1 pl-2 pr-2 md:p-2 bg-green-600 text-white rounded-full">
             <Link to="/profile/following">
-              {user?.following.length} <span>Following</span>
+              {user.following.length} <span>Following</span>
             </Link>
           </div>
         </div>
-        {!id ? (
+        {!id || id === user._id ? (
           <button
             className="absolute top-2 right-2 w-1/5 md:w-1/12 p-2 bg-pink-600  text-white rounded-md font-semibold font-mono"
             onClick={handleLogoutClick}
@@ -121,12 +122,12 @@ const UserProfile = () => {
         className="relative grid grid-cols-2 md:grid-cols-3  gap-2 overflow-y-auto p-2 "
         style={{ height: "calc(100vh - 50vh)" }}
       >
-        {user?.posts.length === 0 ? (
+        {user.posts.length === 0 ? (
           <h1 className=" font-extrabold font-mono text-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             No Posts Yet
           </h1>
         ) : (
-          user?.posts.map((post) => (
+          user.posts.map((post) => (
             <ProfilePost
               key={post._id}
               caption={post.caption}

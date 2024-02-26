@@ -21,6 +21,7 @@ const Home = () => {
       >
         {recentPost && (
           <Post
+            postId={recentPost._id}
             ownerName={user.name}
             ownerId={user._id}
             ownerImage={user.avatar.url}
@@ -30,30 +31,6 @@ const Home = () => {
             postImage={recentPost.image?.url}
           />
         )}
-        <Post
-          caption={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-          necessitatibus."`}
-          postImage={`https://hips.hearstapps.com/hmg-prod/images/adult-woman-taking-a-selfie-in-the-evening-with-the-royalty-free-image-1683751384.jpg?crop=1.00xw:0.446xh;0,0.360xh&resize=980:*`}
-          ownerImage={user.avatar.url}
-          ownerName={user.name}
-          ownerId={user._id}
-        />
-        <Post
-          caption={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-          necessitatibus."`}
-          postImage={`https://hips.hearstapps.com/hmg-prod/images/adult-woman-taking-a-selfie-in-the-evening-with-the-royalty-free-image-1683751384.jpg?crop=1.00xw:0.446xh;0,0.360xh&resize=980:*`}
-          ownerImage={user.avatar.url}
-          ownerName={user.name}
-          ownerId={user._id}
-        />
-        <Post
-          caption={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-          necessitatibus."`}
-          postImage={`https://hips.hearstapps.com/hmg-prod/images/adult-woman-taking-a-selfie-in-the-evening-with-the-royalty-free-image-1683751384.jpg?crop=1.00xw:0.446xh;0,0.360xh&resize=980:*`}
-          ownerImage={user.avatar.url}
-          ownerName={user.name}
-          ownerId={user._id}
-        />
       </div>
       <div className="absolute right-10 bottom-10">
         <button onClick={() => navigate("/compose/post")}>

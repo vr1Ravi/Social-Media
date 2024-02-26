@@ -34,8 +34,7 @@ const ComposePost = ({ children }) => {
       alert("Select Image");
       return;
     }
-    await uploadPost(formData, dispatch);
-    navigate("/");
+    await uploadPost(formData, dispatch, navigate);
   };
   if (loading) {
     return (
@@ -56,6 +55,7 @@ const ComposePost = ({ children }) => {
     );
   }
   if (error) {
+    console.log("in");
     return (
       <div
         style={{ left: "60%" }}
@@ -64,11 +64,11 @@ const ComposePost = ({ children }) => {
         <h1>
           Something is up with server.{" "}
           <Link
-            onClick={() => dispatch(removeError)}
-            className=" underline"
+            onClick={() => dispatch(removeError())}
+            className="underline"
             to={"/"}
           >
-            Click here to go back
+            Click here to go back home
           </Link>
         </h1>
       </div>

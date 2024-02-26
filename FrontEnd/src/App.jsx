@@ -83,7 +83,7 @@ function App() {
           />
           <Route path="/friends" element={<Friends />} />
           <Route path="/search" element={<SearchUser />} />
-          <Route path={`/search/:id`} element={<UserProfile />} />
+          <Route path={`/profile/:id`} element={<UserProfile />} />
           <Route path="*" element={<Errorpage />} />
         </Routes>
       </QueryClientProvider>

@@ -50,7 +50,7 @@ export const likeAndUnlikePost = async (req, res) => {
     // quering post
     const post = await Post.findById(req.params.id);
     if (!post) {
-      return res.satus(404).json({
+      return res.status(404).json({
         success: false,
         message: "No post Found",
       });
