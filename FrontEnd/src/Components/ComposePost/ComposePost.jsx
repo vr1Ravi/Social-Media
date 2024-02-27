@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { uploadPost } from "../../Actions/postsAction";
 import { Oval } from "react-loader-spinner";
-import { removeError } from "../../Slices/postSlice";
+import { setPosts } from "../../Slices/userSlice";
 const ComposePost = ({ children }) => {
   const [postImg, setPostImg] = useState(null);
-  const { loading } = useSelector((state) => state.posts);
-  const { error } = useSelector((state) => state.posts);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const { posts } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,9 +26,7 @@ const ComposePost = ({ children }) => {
   };
   const handlePost = async (e) => {
     e.preventDefault();
-
     const formData = new FormData(e.target);
-
     if (!formData.get("caption")) {
       return;
     }
@@ -34,7 +34,15 @@ const ComposePost = ({ children }) => {
       alert("Select Image");
       return;
     }
-    await uploadPost(formData, dispatch, navigate);
+    setLoading(true);
+    const post = await uploadPost(formData, navigate);
+    setLoading(false);
+    if (post) {
+      console.log(post);
+      dispatch(setPosts([post, ...posts]));
+    } else {
+      setError(true);
+    }
   };
   if (loading) {
     return (
@@ -55,7 +63,6 @@ const ComposePost = ({ children }) => {
     );
   }
   if (error) {
-    console.log("in");
     return (
       <div
         style={{ left: "60%" }}
@@ -63,11 +70,7 @@ const ComposePost = ({ children }) => {
       >
         <h1>
           Something is up with server.{" "}
-          <Link
-            onClick={() => dispatch(removeError())}
-            className="underline"
-            to={"/"}
-          >
+          <Link onClick={() => setError(false)} className="underline" to={"/"}>
             Click here to go back home
           </Link>
         </h1>

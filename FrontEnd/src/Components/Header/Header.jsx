@@ -81,7 +81,7 @@ const Header = () => {
 
       <Link
         className="w-1/2"
-        to={`/${user.name}`}
+        to={`/${user?.name}`}
         onClick={() => {
           localStorage.setItem("path", "/me");
           setCurrentTab("/me");

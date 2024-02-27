@@ -1,9 +1,11 @@
 import { useState } from "react";
 
 import User from "./User";
+import { useSelector } from "react-redux";
 const Friends = () => {
   const [type, setType] = useState("Followers");
-
+  const { followers } = useSelector((state) => state.user);
+  const { following } = useSelector((state) => state.user);
   const handleFollowersClick = () => {
     setType("Followers");
   };
@@ -32,8 +34,36 @@ const Friends = () => {
           Following
         </button>
       </div>
-      <div className=" flex  justify-start p-4 h-screen">
-        <User isLoggedInUser={true} />
+      <div className="flex flex-wrap gap-1 justify-evenly p-1 h-screen">
+        {type === "Followers" ? (
+          followers.length === 0 ? (
+            <h1 className=" mt-11">You don't have any followers yet</h1>
+          ) : (
+            followers.map((user) => (
+              <User
+                key={user._id}
+                id={user._id}
+                isLoggedInUser={true}
+                name={user.name}
+                followers={user.followers.length}
+                following={user.following.length}
+              />
+            ))
+          )
+        ) : following.length === 0 ? (
+          <h1 className=" mt-11">Start adding some friends</h1>
+        ) : (
+          following.map((user) => (
+            <User
+              key={user._id}
+              id={user._id}
+              isLoggedInUser={true}
+              name={user.name}
+              followers={user.followers.length}
+              following={user.following.length}
+            />
+          ))
+        )}
       </div>
     </div>
   );

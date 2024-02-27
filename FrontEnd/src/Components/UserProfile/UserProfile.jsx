@@ -1,21 +1,21 @@
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-// import CloseIcon from "@mui/icons-material/Close";
 import { fetchUser, logOutUser } from "../../Actions/userAction";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ProfilePost from "../Post/ProfilePost";
 import { Oval } from "react-loader-spinner";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import Button from "./Button";
 
 const UserProfile = () => {
   let { user } = useSelector((state) => state.user);
-  const { loading } = useSelector((state) => state.user);
-  const { isAuthenticated } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const { followers } = useSelector((state) => state.user);
+  const { following } = useSelector((state) => state.user);
+  const [btn, setBtn] = useState("Logout");
   const { id } = useParams();
-
+  console.log(id, user?._id);
   const navigate = useNavigate();
 
   const date = new Date(user?.joinedDate);
@@ -24,18 +24,24 @@ const UserProfile = () => {
     month: "long",
   };
   const formattedDate = date.toLocaleString("en-US", options);
-  const handleLogoutClick = async () => {
-    await logOutUser(dispatch);
-    localStorage.removeItem("path");
-    navigate("/");
-  };
-
-  const handleFollowClick = async () => {};
   const results = useQuery({
     queryKey: ["userProfile", id],
     queryFn: fetchUser,
   });
-  if (loading || results.isLoading) {
+  useEffect(() => {
+    const fetchedUser = results.data;
+    if (user._id === fetchedUser._id) {
+      setBtn("Logout");
+    } else if (following.includes(fetchedUser._id)) {
+      setBtn("Unfollow");
+    } else if (followers.includes(fetchedUser._id)) {
+      setBtn("Remove");
+    } else {
+      setBtn("Follow");
+    }
+  }, [results.data]);
+
+  if (results.isLoading) {
     return (
       <div
         style={{ left: "60%" }}
@@ -49,13 +55,11 @@ const UserProfile = () => {
           ariaLabel="oval-loading"
           strokeWidth="7"
         />
-        {loading ? <span className="ml-3 font-mono">Logging out</span> : null}
       </div>
     );
   }
-  if (results.data) user = results.data;
 
-  if (!isAuthenticated) return;
+  if (!user) return;
   return (
     <div className=" w-full md:w-4/5">
       <header className="relative h-11 mt-4">
@@ -98,21 +102,7 @@ const UserProfile = () => {
             </Link>
           </div>
         </div>
-        {!id || id === user._id ? (
-          <button
-            className="absolute top-2 right-2 w-1/5 md:w-1/12 p-2 bg-pink-600  text-white rounded-md font-semibold font-mono"
-            onClick={handleLogoutClick}
-          >
-            Logout
-          </button>
-        ) : (
-          <button
-            className="absolute top-2 right-2 w-1/5 md:w-1/12 p-2 bg-green-600 text-white rounded-md font-semibold font-mono"
-            onClick={handleFollowClick}
-          >
-            Follow
-          </button>
-        )}
+        <Button btn={btn} />
       </div>
       {/* User Posts */}
       <h1 className="text-center text-green-600 text-3xl border border-b-2 border-t-0 w-full font-bold">

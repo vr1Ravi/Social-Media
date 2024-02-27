@@ -3,25 +3,18 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    isAuthenticated: false,
     loading: false,
-    loadingUser: false,
+    posts: [],
+    followers: [],
+    following: [],
   },
 
   reducers: {
-    loginRequest: (state) => {
-      state.loading = true;
-    },
     loginSuccess: (state, action) => {
-      state.loading = false;
       state.user = action.payload;
-      state.isAuthenticated = true;
+      state.posts = state.user.posts;
     },
-    loginFaliure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-      state.isAuthenticated = false;
-    },
+
     logoutRequest: (state) => {
       state.loading = true;
     },
@@ -35,18 +28,14 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.isAuthenticated = false;
     },
-    loadUserRequest: (state) => {
-      state.loadingUser = true;
-    },
-    loadUserSuccess: (state, action) => {
-      state.isAuthenticated = true;
+    setUser: (state, action) => {
       state.user = action.payload;
-      state.loadingUser = false;
+      state.posts = state.user.posts;
+      state.followers = state.user.followers;
+      state.following = state.user.following;
     },
-    loadUserFaliure: (state, action) => {
-      state.isAuthenticated = false;
-      state.error = action.payload;
-      state.loadingUser = false;
+    setPosts: (state, action) => {
+      state.posts = action.payload;
     },
     registerRequest: (state) => {
       state.loading = true;
@@ -66,17 +55,12 @@ const userSlice = createSlice({
 
 export const {
   updateUserInfo,
-  makeBoing,
-  setCurSearchUser,
-  loginRequest,
   loginSuccess,
-  loginFaliure,
   logoutRequest,
   logoutSuccess,
   logoutFaliure,
-  loadUserRequest,
-  loadUserSuccess,
-  loadUserFaliure,
+  setUser,
+  setPosts,
   registerRequest,
   registerSuccess,
   registerFaliure,

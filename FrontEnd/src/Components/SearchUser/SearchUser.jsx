@@ -49,6 +49,7 @@ const SearchUser = () => {
                 id={user._id}
                 followers={user.followers.length}
                 following={user.following.length}
+                isSearch={true}
               />
             );
           }

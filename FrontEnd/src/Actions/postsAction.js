@@ -3,9 +3,6 @@ import {
   postOfFollowingUsersRequest,
   postOfFollowingUsersSuccess,
   postOfFollowingUsersFaliure,
-  uploadPostRequest,
-  uploadPostSuccess,
-  uploadPostFaliure,
 } from "../Slices/postSlice";
 import { loadUser } from "./userAction";
 
@@ -20,11 +17,10 @@ export const getPostsOfFollwingUsers = async (dispatch) => {
 };
 
 // Upload post
-export const uploadPost = async (formData, dispatch, navigate) => {
+export const uploadPost = async (formData, navigate) => {
   try {
-    dispatch(uploadPostRequest());
     const { data } = await axios.post(
-      "/api/v1/post/uplad",
+      "/api/v1/post/upload",
 
       formData,
 
@@ -34,12 +30,11 @@ export const uploadPost = async (formData, dispatch, navigate) => {
         },
       }
     );
-
-    dispatch(uploadPostSuccess(data.post));
-    loadUser(dispatch);
     navigate("/");
+    return data.post;
   } catch (error) {
-    dispatch(uploadPostFaliure(error.message));
+    console.log(error.message);
+    return null;
   }
 };
 

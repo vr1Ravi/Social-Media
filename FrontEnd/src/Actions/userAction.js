@@ -1,23 +1,18 @@
 import axios from "axios";
 import {
-  loginRequest,
   loginSuccess,
-  loginFaliure,
   logoutRequest,
   logoutSuccess,
   logoutFaliure,
-  loadUserRequest,
-  loadUserSuccess,
-  loadUserFaliure,
   registerRequest,
   registerSuccess,
   registerFaliure,
   updateUserInfo,
+  setUser,
 } from "../Slices/userSlice";
 
 export const loginUser = async (email, password, dispatch) => {
   try {
-    dispatch(loginRequest());
     const { data } = await axios.post(
       "/api/v1/login",
       { email, password },
@@ -27,22 +22,21 @@ export const loginUser = async (email, password, dispatch) => {
         },
       }
     );
-
     dispatch(loginSuccess(data.user));
+    localStorage.setItem("isAuthenticated", true);
   } catch (error) {
-    dispatch(loginFaliure(error.response.data.message));
+    console.log(error.message);
+    return null;
   }
 };
 
 export const loadUser = async (dispatch) => {
   try {
-    dispatch(loadUserRequest());
     const { data } = await axios.get("/api/v1/me");
-
-    dispatch(loadUserSuccess(data.user));
+    if (data) dispatch(setUser(data.user));
   } catch (error) {
-    dispatch(loadUserFaliure(error.response.data.message));
     console.log(error);
+    return null;
   }
 };
 export const loadOnUpdate = async (dispatch) => {

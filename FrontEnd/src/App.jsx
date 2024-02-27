@@ -6,7 +6,7 @@ import Header from "./Components/Header/Header";
 import Login from "./Components/Login/Login";
 import { useDispatch } from "react-redux";
 import { loadUser } from "./Actions/userAction";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Home from "./Components/Home/Home";
 import UserProfile from "./Components/UserProfile/UserProfile";
@@ -29,35 +29,33 @@ const queryClient = new QueryClient({
 });
 function App() {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const { loadingUser } = useSelector((state) => state.user);
   const { user } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
+  const isAuthenticated = localStorage.getItem("isAuthenticated") || false;
   useEffect(() => {
-    loadUser(dispatch);
+    setLoading(true);
+    loadUser(dispatch)
+      .then(() => setLoading(false))
+      .catch();
   }, []);
-  if (loadingUser) {
+  if (loading) {
     return (
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <Oval
-          visible={true}
-          height="40"
-          width="40"
-          color="#4fa94d"
-          ariaLabel="oval-loading"
-          strokeWidth="7"
-        />
+        Loading....
       </div>
     );
   }
+
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         {isAuthenticated && <Header />}
         <Routes>
-          <Route
-            path="/"
-            element={isAuthenticated ? <Home /> : <Onboarding />}
-          />
+          {isAuthenticated ? (
+            <Route path="/" element={<Home />} />
+          ) : (
+            <Route path="/" element={<Onboarding />} />
+          )}
           <Route
             path="/login"
             element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}

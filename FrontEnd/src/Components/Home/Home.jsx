@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const Home = () => {
   const { user } = useSelector((state) => state.user);
-  const recentPost = user?.posts[0];
+  const recentPost = useSelector((state) => state.user.posts[0]);
   const navigate = useNavigate();
   if (!user) {
     return;

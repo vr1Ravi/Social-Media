@@ -1,12 +1,12 @@
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import { Link } from "react-router-dom";
 
-const User = ({ isLoggedInUser, name, imageUrl, id, followers, following }) => {
+const User = ({ isSearch, name, imageUrl, id, followers, following }) => {
   console.log(followers, following);
   return (
     <Link
       to={`/profile/${id}`}
-      className="relative flex flex-col justify-start w-1/4 h-1/5 md:h-1/3 items-center border rounded-sm"
+      className="relative flex flex-col justify-start w-1/4 h-1/5 md:h-1/4  items-center border rounded-sm"
     >
       <img
         className="w-20 h-20 mb-4 rounded-full mt-3"
@@ -18,22 +18,7 @@ const User = ({ isLoggedInUser, name, imageUrl, id, followers, following }) => {
         alt=""
       />
       <h4 className=" text-green-500 text-xl font-semibold">{name}</h4>
-
-      <div className="flex w-full justify-evenly items-center">
-        <p>
-          {followers}
-          <span>
-            <i> Followers</i>
-          </span>
-        </p>
-        <p>
-          {following}
-          <span>
-            <i> following</i>
-          </span>
-        </p>
-      </div>
-      {isLoggedInUser && (
+      {!isSearch && (
         <DeleteSweepIcon className="absolute right-0 top-0 text-pink-600 cursor-pointer" />
       )}
     </Link>

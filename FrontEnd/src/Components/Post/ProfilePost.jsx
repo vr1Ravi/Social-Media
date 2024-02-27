@@ -4,6 +4,7 @@ import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import { useState } from "react";
 const ProfilePost = ({ caption, postSrc, likes, comments }) => {
   const [showDelete, setShowDelete] = useState(false);
+
   return (
     <div
       onMouseOver={() => setShowDelete(true)}

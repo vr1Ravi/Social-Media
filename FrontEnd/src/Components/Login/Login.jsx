@@ -1,18 +1,29 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../../Actions/userAction";
 import { Oval } from "react-loader-spinner";
+import { useState } from "react";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { loading } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const dispatch = useDispatch();
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    await loginUser(email, password, dispatch);
+    setLoading(true);
+    setError(null);
+    const formData = new FormData(e.target);
+    const res = await loginUser(
+      formData.get("email"),
+      formData.get("password"),
+      dispatch
+    );
+    if (res === null) {
+      setLoading(false);
+      setError(true);
+    }
   };
   if (loading) {
     return (
@@ -29,6 +40,16 @@ const Login = () => {
       </div>
     );
   }
+
+  if (error) {
+    console.log("in");
+    return (
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <h1>Something is up with server. sorry for the Inconvenience</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="w-screen h-screen overflow-hidden">
       <h1 className=" mt-20 text-center text-4xl font-bold font-mono">
@@ -41,19 +62,15 @@ const Login = () => {
             type="email"
             placeholder="Email"
             required
-            value={email}
+            name="email"
             className=" w-11/12 md:w-2/3 lg:w-1/3 p-5 border border-slate-200  outline-green-600 rounded-xl"
-            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
             required
-            value={password}
+            name="password"
             className=" w-11/12 md:w-2/3 lg:w-1/3 p-5 border border-slate-200  outline-green-600 rounded-xl"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
           />
           <Link
             to="/forget/password"

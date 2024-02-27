@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -24,9 +23,9 @@ const Post = ({
   const [showComment, setShowComment] = useState(false);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    const isLiked = likes.find((like) => like === user._id);
-    console.log(isLiked);
+    const isLiked = likes.includes(user._id);
     setIsLiked(isLiked);
   }, []);
 
