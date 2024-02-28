@@ -3,6 +3,9 @@ import {
   postOfFollowingUsersRequest,
   postOfFollowingUsersSuccess,
   postOfFollowingUsersFaliure,
+  deletePostFaliure,
+  deletePostRequest,
+  deletePostSuccess,
 } from "../Slices/postSlice";
 import { loadUser } from "./userAction";
 
@@ -28,7 +31,7 @@ export const uploadPost = async (formData, navigate) => {
         headers: {
           "content-type": "multipart/form-data",
         },
-      }
+      },
     );
     navigate("/");
     return data.post;
@@ -41,12 +44,12 @@ export const uploadPost = async (formData, navigate) => {
 // Delete post
 export const deletePost = async (postId, dispatch) => {
   try {
+    dispatch(deletePostRequest());
     const { data } = await axios.delete(`/api/v1/post/${postId}`);
-
-    await loadUser(dispatch);
-    return data.message;
+    dispatch(deletePostSuccess(data.message));
   } catch (error) {
-    return null;
+    dispatch(deletePostFaliure(error.message));
+    console.log(error.message);
   }
 };
 
@@ -61,7 +64,7 @@ export const updatePostCaption = async (newCaption, postId) => {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
     return data.message;
   } catch (error) {
@@ -89,7 +92,7 @@ export const postComment = async (id, comment) => {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
     return data.message;
   } catch (error) {

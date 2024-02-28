@@ -13,9 +13,8 @@ const UserProfile = () => {
   let { user } = useSelector((state) => state.user);
   const { followers } = useSelector((state) => state.user);
   const { following } = useSelector((state) => state.user);
-  const [btn, setBtn] = useState("Logout");
   const { id } = useParams();
-  console.log(id, user?._id);
+  const loggedInUserId = user?._id;
   const navigate = useNavigate();
 
   const date = new Date(user?.joinedDate);
@@ -28,24 +27,12 @@ const UserProfile = () => {
     queryKey: ["userProfile", id],
     queryFn: fetchUser,
   });
-  useEffect(() => {
-    const fetchedUser = results.data;
-    if (user._id === fetchedUser._id) {
-      setBtn("Logout");
-    } else if (following.includes(fetchedUser._id)) {
-      setBtn("Unfollow");
-    } else if (followers.includes(fetchedUser._id)) {
-      setBtn("Remove");
-    } else {
-      setBtn("Follow");
-    }
-  }, [results.data]);
 
   if (results.isLoading) {
     return (
       <div
         style={{ left: "60%" }}
-        className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center"
+        className="absolute top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center"
       >
         <Oval
           visible={true}
@@ -58,17 +45,18 @@ const UserProfile = () => {
       </div>
     );
   }
-
+  if (results.isError) return <h1>Error</h1>;
+  if (results.data) user = results.data;
   if (!user) return;
   return (
     <div className=" w-full md:w-4/5">
-      <header className="relative h-11 mt-4">
+      <header className="relative mt-4 h-11">
         {id && (
           <button className="p2 ml-2" onClick={() => navigate(-1)}>
             {<ArrowBackIcon />}
           </button>
         )}
-        <h1 className="text-center text-green-600 text-3xl border border-b-2 border-t-0 w-full font-bold">
+        <h1 className="w-full border border-b-2 border-t-0 text-center text-3xl font-bold text-green-600">
           Profile
         </h1>
         {!id && (
@@ -77,54 +65,62 @@ const UserProfile = () => {
           </Link>
         )}
       </header>
-      <div className=" relative flex flex-col items-center mt-4 justify-around h-1/3 md:h-1/3 md:flex-row">
+      <div className=" relative mt-4 flex h-1/3 flex-col items-center justify-around md:h-1/3 md:flex-row">
         <div>
           <img
-            className="rounded-full border-green-600  border-4 w-48 h-48"
+            className="h-48 w-48  rounded-full border-4 border-green-600"
             src={user?.avatar.url}
             alt="userProfilePic"
           />
         </div>
-        <div className="mt-3 h-20 flex flex-col justify-between font-mono ">
+        <div className="mt-3 flex h-20 flex-col justify-between font-mono ">
           <p className="font-semibold">{user.name}</p>
           <p>{user.bio}</p>
           <i>Joined {formattedDate}</i>
         </div>
-        <div className="flex justify-between mt-6">
-          <div className="p-1 pl-2 pr-2 md:p-2 bg-green-600 text-white rounded-full mr-4">
+        <div className="mt-6 flex justify-between">
+          <div className="mr-4 rounded-full bg-green-600 p-1 pl-2 pr-2 text-white md:p-2">
             <Link to="/profile/following">
               {user.followers.length} <span> Followers</span>
             </Link>
           </div>
-          <div className="p-1 pl-2 pr-2 md:p-2 bg-green-600 text-white rounded-full">
+          <div className="rounded-full bg-green-600 p-1 pl-2 pr-2 text-white md:p-2">
             <Link to="/profile/following">
               {user.following.length} <span>Following</span>
             </Link>
           </div>
         </div>
-        <Button btn={btn} />
+        {!id ? (
+          <button className="absolute right-2 top-2 w-1/5 rounded-md bg-red-600 p-2 font-mono font-semibold text-white md:w-1/12">
+            Logout
+          </button>
+        ) : (
+          <button className="absolute right-2 top-2 w-1/5 rounded-md bg-green-600 p-2 font-mono font-semibold text-white md:w-1/12">
+            Follow
+          </button>
+        )}
       </div>
       {/* User Posts */}
-      <h1 className="text-center text-green-600 text-3xl border border-b-2 border-t-0 w-full font-bold">
+      <h1 className="w-full border border-b-2 border-t-0 text-center text-3xl font-bold text-green-600">
         Posts
       </h1>
       <div
-        className="relative grid grid-cols-2 md:grid-cols-3  gap-2 overflow-y-auto p-2 "
+        className="grid grid-cols-2 gap-2  overflow-y-auto p-2 md:grid-cols-3 "
         style={{ height: "calc(100vh - 50vh)" }}
       >
         {user.posts.length === 0 ? (
-          <h1 className=" font-extrabold font-mono text-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            No Posts Yet
-          </h1>
+          <h1 className=" font-mono text-xl font-extrabold">No Posts Yet</h1>
         ) : (
           user.posts.map((post) => (
             <ProfilePost
               key={post._id}
+              postId={post._id}
               caption={post.caption}
               postSrc={post.image.url}
               ownerName={user.name}
               likes={post.likes.length}
               comments={post.comments.length}
+              isLoggedUser={loggedInUserId === user?._id}
             />
           ))
         )}

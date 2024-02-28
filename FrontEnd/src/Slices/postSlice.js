@@ -29,7 +29,17 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-
+    deletePostRequest: (state) => {
+      state.loading = true;
+    },
+    deletePostSuccess: (state, message) => {
+      state.loading = false;
+      state.message = message;
+    },
+    deletePostFaliure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     removeError: (state) => {
       state.error = null;
     },
@@ -44,6 +54,9 @@ export const {
   uploadPostRequest,
   uploadPostSuccess,
   uploadPostFaliure,
+  deletePostRequest,
+  deletePostSuccess,
+  deletePostFaliure,
   removeError,
 } = postSlice.actions;
 export default postSlice.reducer;
