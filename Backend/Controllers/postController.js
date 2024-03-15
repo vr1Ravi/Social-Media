@@ -1,6 +1,9 @@
+import path from "path";
 import { Post } from "../Models/PostModel.js";
 import { User } from "../Models/UserModel.js";
 import { cloudinary } from "../app.js";
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 // createPost Controller
 export const createPost = async (req, res) => {
   try {
@@ -9,6 +12,28 @@ export const createPost = async (req, res) => {
 
     const user = await User.findById(req.user._id);
     const uploadedImage = await cloudinary.uploader.upload(image);
+    
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    const folder_path = path.join(__dirname, '../../uploads');
+
+    fs.readdir( folder_path, (err, files) => {
+      if (err) {
+        console.log(err);
+        return
+      }
+      const file_to_remove = files[0];
+      const file_to_remove_path = path.join(folder_path, file_to_remove);
+
+      fs.unlink(file_to_remove_path, (err) => {
+        if(err){
+          console.log("Error in removing recent image file");
+        }
+        console.log("Recent image file removed");
+
+      })
+     
+      
+    })
 
     const imageId = uploadedImage.public_id;
     const imageUrl = uploadedImage.url;
@@ -37,6 +62,7 @@ export const createPost = async (req, res) => {
       post,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: error.message,

@@ -13,31 +13,30 @@ const SearchUser = () => {
   });
   const loggedInUser = useSelector((state) => state.user.user);
   const users = results.data || [];
-  if (results.isLoading) {
-    return (
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <Oval
-          visible={true}
-          height="40"
-          width="40"
-          color="#4fa94d"
-          ariaLabel="oval-loading"
-          strokeWidth="7"
-        />
-      </div>
-    );
-  }
   return (
-    <div className="w-full md:w-4/5">
-      <div className="w-4/5 mt-4 ml-auto mr-auto mb-3">
+    <div className="relative w-full md:w-4/5">
+      <div className="mb-3 ml-auto mr-auto mt-4 w-4/5">
         <input
           disabled={true}
-          className="w-full h-full p-3 border rounded-md outline-green-500 animate-searchUserInput"
+          className="animate-searchUserInput h-full w-full rounded-md border p-3 outline-green-500"
           type="text"
           placeholder="search-user"
         />
       </div>
-      <div className="flex flex-wrap p-3 *:mr-3 *:mb-3 justify-start">
+
+      {results.isLoading && (
+        <div className=" absolute left-1/2 top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2">
+          <Oval
+            visible={true}
+            height="20"
+            width="20"
+            color="#4fa94d"
+            ariaLabel="oval-loading"
+            strokeWidth="7"
+          />
+        </div>
+      )}
+      <div className="flex flex-wrap justify-start p-3 *:mb-3 *:mr-3">
         {users.map((user) => {
           if (loggedInUser._id !== user._id) {
             return (

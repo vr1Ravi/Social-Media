@@ -2,15 +2,13 @@ import "./App.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import Header from "./Components/Header/Header";
-
 import Login from "./Components/Login/Login";
 import { useDispatch } from "react-redux";
 import { loadUser } from "./Actions/userAction";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Home from "./Components/Home/Home";
 import UserProfile from "./Components/UserProfile/UserProfile";
-import { Oval } from "react-loader-spinner";
 import Register from "./Components/Register/Register";
 import SearchUser from "./Components/SearchUser/SearchUser";
 import Friends from "./Components/Friends/Friends";
@@ -30,17 +28,14 @@ const queryClient = new QueryClient({
 function App() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const [loading, setLoading] = useState(false);
-  const isAuthenticated = localStorage.getItem("isAuthenticated") || false;
+  const { loading } = useSelector((state) => state.user);
+
   useEffect(() => {
-    setLoading(true);
-    loadUser(dispatch)
-      .then(() => setLoading(false))
-      .catch();
+    loadUser(dispatch);
   }, []);
   if (loading) {
     return (
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         Loading....
       </div>
     );
@@ -49,22 +44,20 @@ function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        {isAuthenticated && <Header />}
+        {user && <Header />}
         <Routes>
-          {isAuthenticated ? (
+          {user ? (
             <Route path="/" element={<Home />} />
           ) : (
             <Route path="/" element={<Onboarding />} />
           )}
           <Route
             path="/login"
-            element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+            element={user ? <Navigate to="/" replace /> : <Login />}
           />
           <Route
             path="/register"
-            element={
-              isAuthenticated ? <Navigate to="/" replace /> : <Register />
-            }
+            element={user ? <Navigate to="/" replace /> : <Register />}
           />
           <Route path={`/${user?.name}`} element={<UserProfile />} />
           <Route

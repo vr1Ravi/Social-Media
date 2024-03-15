@@ -67,8 +67,6 @@ export const login = async (req, res) => {
     let user = await User.findOne({ email })
       .select("+password")
       .populate("posts")
-      .populate("followers")
-      .populate("following");
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -83,6 +81,9 @@ export const login = async (req, res) => {
         message: "Password Incorrect",
       });
     }
+
+    const bot_posts = await Post.find({isBot: true}).populate('owner');
+    
     const token = await user.generateToken(); // genearateToken method  defined is userModel
     return res
       .status(200)
@@ -95,6 +96,7 @@ export const login = async (req, res) => {
       .json({
         success: true,
         user,
+        bot_posts,
         token,
       });
   } catch (error) {

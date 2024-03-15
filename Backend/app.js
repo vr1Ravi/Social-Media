@@ -20,7 +20,9 @@ cloudinary.config({
 const app = express(); // app is an express instance
 
 // Middlewares
-app.use(cors());
+app.use(cors(
+
+));
 app.use(
   express.json()
 ); /* responsible for parsing incoming requests with json payloads to object and then this obj is attached to req

@@ -6,16 +6,18 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ProfilePost from "../Post/ProfilePost";
 import { Oval } from "react-loader-spinner";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import Button from "./Button";
+import { useState } from "react";
+import Errorpage from "../Error/Error";
 
 const UserProfile = () => {
   let { user } = useSelector((state) => state.user);
   const { followers } = useSelector((state) => state.user);
   const { following } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.user);
   const { id } = useParams();
-  const loggedInUserId = user?._id;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loggedInUserId = user?._id;
 
   const date = new Date(user?.joinedDate);
   const options = {
@@ -28,7 +30,10 @@ const UserProfile = () => {
     queryFn: fetchUser,
   });
 
-  if (results.isLoading) {
+  const handleFollowUnfollow = () => {};
+
+  if (results.isError || error) return <Errorpage />;
+  if (results.isLoading || loading) {
     return (
       <div
         style={{ left: "60%" }}
@@ -45,7 +50,6 @@ const UserProfile = () => {
       </div>
     );
   }
-  if (results.isError) return <h1>Error</h1>;
   if (results.data) user = results.data;
   if (!user) return;
   return (
@@ -81,21 +85,34 @@ const UserProfile = () => {
         <div className="mt-6 flex justify-between">
           <div className="mr-4 rounded-full bg-green-600 p-1 pl-2 pr-2 text-white md:p-2">
             <Link to="/profile/following">
-              {user.followers.length} <span> Followers</span>
+              {followers.length} <span> Followers</span>
             </Link>
           </div>
           <div className="rounded-full bg-green-600 p-1 pl-2 pr-2 text-white md:p-2">
             <Link to="/profile/following">
-              {user.following.length} <span>Following</span>
+              {following.length} <span>Following</span>
             </Link>
           </div>
         </div>
         {!id ? (
-          <button className="absolute right-2 top-2 w-1/5 rounded-md bg-red-600 p-2 font-mono font-semibold text-white md:w-1/12">
+          <button
+            onClick={() => logOutUser(dispatch)}
+            className="absolute right-2 top-2 w-1/5 rounded-md bg-red-600 p-2 font-mono font-semibold text-white md:w-1/12"
+          >
             Logout
           </button>
+        ) : user.following.includes(id) ? (
+          <button
+            onClick={handleFollowUnfollow}
+            className="absolute right-2 top-2 w-1/5 rounded-md bg-green-600 p-2 font-mono font-semibold text-white md:w-1/12"
+          >
+            Following
+          </button>
         ) : (
-          <button className="absolute right-2 top-2 w-1/5 rounded-md bg-green-600 p-2 font-mono font-semibold text-white md:w-1/12">
+          <button
+            onClick={handleFollowUnfollow}
+            className="absolute right-2 top-2 w-1/5 rounded-md bg-green-600 p-2 font-mono font-semibold text-white md:w-1/12"
+          >
             Follow
           </button>
         )}

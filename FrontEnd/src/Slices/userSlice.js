@@ -21,18 +21,25 @@ const userSlice = createSlice({
     logoutSuccess: (state) => {
       state.loading = false;
       state.user = null;
-      state.isAuthenticated = false;
     },
     logoutFaliure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
-      state.isAuthenticated = false;
     },
-    setUser: (state, action) => {
+    loadUserRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    loadUserSuccess: (state, action) => {
+      state.loading = false;
       state.user = action.payload;
       state.posts = state.user.posts;
       state.followers = state.user.followers;
       state.following = state.user.following;
+    },
+    loadUserFaliure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
     },
     setPosts: (state, action) => {
       state.posts = action.payload;
@@ -59,7 +66,9 @@ export const {
   logoutRequest,
   logoutSuccess,
   logoutFaliure,
-  setUser,
+  loadUserRequest,
+  loadUserSuccess,
+  loadUserFaliure,
   setPosts,
   registerRequest,
   registerSuccess,

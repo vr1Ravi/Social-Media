@@ -8,7 +8,9 @@ import {
   registerSuccess,
   registerFaliure,
   updateUserInfo,
-  setUser,
+  loadUserRequest,
+  loadUserSuccess,
+  loadUserFaliure,
 } from "../Slices/userSlice";
 
 export const loginUser = async (email, password, dispatch) => {
@@ -20,8 +22,10 @@ export const loginUser = async (email, password, dispatch) => {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
+    console.log(data);
+    localStorage.setItem("botPosts", JSON.stringify(data.bot_posts));
     dispatch(loginSuccess(data.user));
     localStorage.setItem("isAuthenticated", true);
   } catch (error) {
@@ -32,11 +36,12 @@ export const loginUser = async (email, password, dispatch) => {
 
 export const loadUser = async (dispatch) => {
   try {
-    const { data } = await axios.get("/api/v1/me");
-    if (data) dispatch(setUser(data.user));
+    dispatch(loadUserRequest());
+    const { data } = await axios.get(`/api/v1/me`);
+    dispatch(loadUserSuccess(data.user));
   } catch (error) {
     console.log(error);
-    return null;
+    dispatch(loadUserFaliure(error.response.data.message));
   }
 };
 export const loadOnUpdate = async (dispatch) => {
@@ -67,6 +72,7 @@ export const logOutUser = async (dispatch) => {
   try {
     dispatch(logoutRequest());
     await axios.get("/api/v1/logout");
+    localStorage.removeItem("isAuthenticated");
     dispatch(logoutSuccess());
   } catch (error) {
     dispatch(logoutFaliure(error.message));
@@ -112,7 +118,6 @@ export const fetchAllUsers = async ({ queryKey }) => {
 };
 
 export const fetchUser = async ({ queryKey }) => {
-  console.log(queryKey);
   const id = queryKey[1];
   if (id === undefined) return null;
   const { data } = await axios.get(`/api/v1/user/${id}`);

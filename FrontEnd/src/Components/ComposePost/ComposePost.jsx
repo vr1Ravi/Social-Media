@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { uploadPost } from "../../Actions/postsAction";
 import { Oval } from "react-loader-spinner";
 import { setPosts } from "../../Slices/userSlice";
+import CloseIcon from "@mui/icons-material/Close";
 const ComposePost = ({ children }) => {
   const [postImg, setPostImg] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -48,7 +49,7 @@ const ComposePost = ({ children }) => {
     return (
       <div
         style={{ left: "60%" }}
-        className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center"
+        className="absolute top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center"
       >
         <Oval
           visible={true}
@@ -66,7 +67,7 @@ const ComposePost = ({ children }) => {
     return (
       <div
         style={{ left: "60%" }}
-        className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center"
+        className="absolute top-1/2 inline-flex -translate-x-1/2 -translate-y-1/2 items-center"
       >
         <h1>
           Something is up with server.{" "}
@@ -82,19 +83,21 @@ const ComposePost = ({ children }) => {
       {children}
       <div
         style={{ backgroundColor: "#999999" }}
-        className="absolute top-1/2 overflow-y-auto left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center w-full h-full border opacity-95 shadow-md "
+        className="absolute left-1/2 top-1/2 flex h-full w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center overflow-y-auto border opacity-95 shadow-md "
       ></div>
-      <div className="absolute top-1/2 overflow-y-auto left-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-1/2 h-1/2 md:h-5/6 flex flex-col justify-center items-center">
-        <div className="flex justify-end w-full ">
-          <button className=" font-mono" onClick={() => navigate("/")}>
-            Close
+      <div className="absolute left-1/2 top-1/2 flex h-[60%] w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center overflow-y-auto sm:w-[60%] lg:w-[40%]">
+        <div className="w-5/6  md:w-full">
+          <button
+            className=" float-right cursor-pointer font-mono"
+            onClick={() => navigate("/")}
+          >
+            <CloseIcon style={{ color: "green", fontWeight: "bold" }} />
           </button>
         </div>
-
-        <div className="w-5/6 md:w-full  h-full  border rounded-lg overflow-y-auto">
+        <div className="h-full w-5/6  overflow-y-auto  rounded-lg border bg-white md:w-full">
           <form
             onSubmit={(e) => handlePost(e)}
-            className="w-full h-full flex flex-col justify-between items-center  bg-white"
+            className="flex h-full w-full flex-col items-center justify-between  "
           >
             <input
               type="text"
@@ -103,27 +106,25 @@ const ComposePost = ({ children }) => {
               className=" w-full p-5 outline-none"
               required
             />
-            {postImg && (
-              <img src={postImg} className="w-full md:w-1/2 md:h-1/2" />
-            )}
+            {postImg && <img src={postImg} className="h-full w-full  p-4" />}
 
-            <div className=" relative  flex w-full justify-between items-center border-t-2 p-3">
+            <div className=" relative  flex w-full items-center justify-between border-t-2 bg-white p-3">
               <div className="absolute w-10">
                 <PhotoSizeSelectActualIcon
                   style={{ width: "40px" }}
-                  className=" text-green-600 cursor-pointer"
+                  className=" cursor-pointer text-green-600"
                 />
               </div>
               <input
                 type="file"
                 accept="image/*"
-                className=" w-10 rounded-xl z-10 opacity-0"
+                className=" z-10 w-10 rounded-xl opacity-0"
                 onChange={handleComposePost}
                 name="image"
               />
               <button
                 type="submit"
-                className="bg-green-500 p-3 rounded-md w-1/4 text-white font-semibold font-mono"
+                className="w-1/4 rounded-md bg-green-500 p-3 font-mono font-semibold text-white"
               >
                 Post
               </button>
